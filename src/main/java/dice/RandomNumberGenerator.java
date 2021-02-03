@@ -9,6 +9,7 @@ public class RandomNumberGenerator implements IntSupplier {
     private int maxValue;
 
     public RandomNumberGenerator(int minValue, int maxValue){
+        this.random = new SecureRandom();
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
