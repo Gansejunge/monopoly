@@ -16,6 +16,6 @@ public class RandomNumberGenerator implements IntSupplier {
 
     @Override
     public int getAsInt() {
-        return minValue + random.nextInt(maxValue);
+        return minValue + random.nextInt(1 + maxValue - minValue);
     }
 }
