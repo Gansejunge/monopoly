@@ -17,4 +17,8 @@ public class GameController {
         this.currentPlayer %= this.player.length;
         return this.player[this.currentPlayer];
     }
+    public void giveMoney(int amountOfMoney){
+    }
+    public void movePlayer(int amountOfMoves,boolean getMoneyFromStart){
+    }
 }
