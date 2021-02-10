@@ -6,8 +6,9 @@ public class GameController {
 
     public void initPlayer(int amount){
         this.player = new Player[amount];
-        for(Player p : this.player){
-            p = new Player();
+        String name = "";
+        for(int i = 0; i<amount; i++){
+           this.player[i] = new Player(name);
         }
     }
 
