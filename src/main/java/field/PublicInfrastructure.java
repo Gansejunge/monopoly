@@ -1,3 +1,5 @@
+package field;
+
 public class PublicInfrastructure extends Property{
 
     public PublicInfrastructure(){

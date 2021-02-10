@@ -1,3 +1,5 @@
+package field;
+
 public class Trainstation extends Property {
 
     @Override

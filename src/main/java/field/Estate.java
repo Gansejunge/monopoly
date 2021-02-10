@@ -1,3 +1,5 @@
+package field;
+
 public class Estate extends Property{
     private String color;
     private int houses;
