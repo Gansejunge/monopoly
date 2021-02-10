@@ -14,8 +14,5 @@ public class Estate extends Property{
         return rent[houses];
     }
 
-    @Override
-    public void getFieldAction() {
 
-    }
 }

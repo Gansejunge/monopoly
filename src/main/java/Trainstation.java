@@ -5,10 +5,7 @@ public class Trainstation extends Property {
         return 0;
     }
 
-    @Override
-    public void getFieldAction() {
 
-    }
 
 
 }

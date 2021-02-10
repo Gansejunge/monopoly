@@ -1,5 +1,9 @@
 public abstract class Field {
     protected String name;
-    public abstract void getFieldAction();
+    protected Action fieldAction;
+    public Action getFieldAction() {
+        return this.fieldAction;
+    }
+
 
 }
