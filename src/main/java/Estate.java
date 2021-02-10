@@ -1,18 +1,21 @@
 public class Estate extends Property{
     private String color;
     private int houses;
-    private float rent[];
+    private float[] rent;
 
-    public void Estate(String Name, String color, float rent[]){
+    public void Estate(String name, String color, float[] rent){
         this.name = name;
         this.color = color;
         this.houses = 0;
-        this.rent[] = rent();
+        this.rent = rent;
     }
-
+    @Override
     public float getRent(){
         return rent[houses];
     }
 
+    @Override
+    public void getFieldAction() {
 
+    }
 }
