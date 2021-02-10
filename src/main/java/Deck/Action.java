@@ -1,4 +1,6 @@
 package Deck;
 
-public class Action {
+public interface Action {
+
+    void perfom(GameController controller);
 }

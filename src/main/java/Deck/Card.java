@@ -9,4 +9,7 @@ public class Card {
         this.action=action;
         this.cardType=cardType;
     }
+    public Action getAction(){
+        return this.action;
+    }
 }
