@@ -41,7 +41,7 @@ public class Deck {
         communityCard.add(new Card("Sie erhalten auf Vorzugs-Aktien 7% Dividende: € 25.",null, CardType.Gemeinschaftskarte));
         communityCard.add(new Card("Sie haben Geburtstag. Jeder Spieler schenkt Ihnen € 10",null, CardType.Gemeinschaftskarte));
         communityCard.add(new Card("Sie erben € 100",null, CardType.Gemeinschaftskarte));
-        communityCard.add(new Card("Sie erben € 100",null, CardType.Gemeinschaftskarte));
+        communityCard.add(new Card("Aus Lagerverkäufen erhalten Sie M 50",null, CardType.Gemeinschaftskarte));
         communityCard.add(new Card("Zweiter Preis im Schönheitswettbewerb. Sie erhalten € 10.",null, CardType.Gemeinschaftskarte));
         communityCard.add(new Card("Sie werden zu Straßenausbesserungsarbeiten herangezogen. Zahlen Sie € 40 je Haus und € 115 je Hotel an die Bank.",null, CardType.Gemeinschaftskarte));
         communityCard.add(new Card("Rücken Sie vor bis auf Los. (Ziehe € 200 ein).",null, CardType.Gemeinschaftskarte));
