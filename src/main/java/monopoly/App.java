@@ -1,3 +1,5 @@
+package monopoly;
+
 /**
  * Hello world!
  *

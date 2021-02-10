@@ -1,6 +1,6 @@
 package deck;
 
-import main.GameController;
+import monopoly.GameController;
 
 public class moveToLocation implements Action{
     private int location;

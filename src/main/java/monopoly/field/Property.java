@@ -1,4 +1,4 @@
-package field;
+package monopoly.field;
 
 public abstract class Property extends Field {
     protected float price;

@@ -1,4 +1,6 @@
-package Deck;
+package deck;
+
+import monopoly.GameController;
 
 public class MoveFields implements Action{
     private int amountOfMoves;

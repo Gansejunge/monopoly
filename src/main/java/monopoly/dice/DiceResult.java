@@ -1,4 +1,4 @@
-package dice;
+package monopoly.dice;
 
 import java.util.ArrayList;
 import java.util.List;

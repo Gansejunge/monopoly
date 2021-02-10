@@ -1,6 +1,4 @@
-package main;
-
-import java.util.ArrayList;
+package monopoly;
 
 public class GameController {
     private Player[] player;

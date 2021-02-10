@@ -1,4 +1,4 @@
-package field;
+package monopoly.field;
 
 public class Estate extends Property{
     private String color;

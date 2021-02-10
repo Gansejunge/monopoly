@@ -1,3 +1,5 @@
+package monopoly;
+
 public class Player {
     public String name;
     private int money = 0;

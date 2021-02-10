@@ -1,4 +1,4 @@
-package dice;
+package monopoly.dice;
 
 import java.security.SecureRandom;
 import java.util.function.IntSupplier;

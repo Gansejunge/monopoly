@@ -1,3 +1,5 @@
+package monopoly;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public class Board {
         fields = new ArrayList<>();
     }
 
-    public FieldTest movePlayer(PlayerTest player, int step){
+    public FieldTest movePlayer(Player player, int step){
         int resultingPosition = (player.getPosition() + step) % fields.size();
         player.setPosition(resultingPosition);
         return fields.get(resultingPosition);

@@ -1,4 +1,6 @@
-import dice.Dice;
+package monopoly;
+
+import monopoly.dice.Dice;
 
 import java.util.Scanner;
 

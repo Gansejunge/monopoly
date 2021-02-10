@@ -1,4 +1,4 @@
-package dice;
+package monopoly.dice;
 
 public class Dice {
     private static RandomNumberGenerator rng = new RandomNumberGenerator(1, 6);
