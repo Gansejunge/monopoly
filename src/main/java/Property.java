@@ -1,5 +1,5 @@
 public abstract class Property extends Field {
-    private float price;
-    private Player owner;
+    protected float price;
+    protected Player owner;
     public abstract float getRent();
 }

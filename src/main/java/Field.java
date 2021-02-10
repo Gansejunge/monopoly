@@ -1,5 +1,5 @@
 public abstract class Field {
-    private String name;
+    protected String name;
     public abstract void getFieldAction();
 
 }
