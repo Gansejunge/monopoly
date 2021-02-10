@@ -21,4 +21,6 @@ public class GameController {
     }
     public void movePlayer(int amountOfMoves,boolean getMoneyFromStart){
     }
+    public void moveToField(int location,boolean getMoneyFromStart){
+    }
 }
