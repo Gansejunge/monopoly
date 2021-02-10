@@ -1,4 +1,4 @@
-package deck;
+package monopoly.deck;
 
 public class Card {
     private String text;

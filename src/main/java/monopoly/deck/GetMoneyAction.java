@@ -1,4 +1,4 @@
-package deck;
+package monopoly.deck;
 
 import monopoly.GameController;
 
