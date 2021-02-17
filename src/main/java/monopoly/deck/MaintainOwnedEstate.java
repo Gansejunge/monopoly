@@ -13,8 +13,9 @@ public class MaintainOwnedEstate implements Action {
 
     @Override
     public void perfom(GameController controller) {
-        int rentDue = (controller.getCurrentPlayer().getAmountOfHouses() * houseMultiplier)
-                + (controller.getCurrentPlayer().getAmountOfHotels * hotelMultiplier);
-        controller.transferMoneyToOrFromBank(-1 * rentDue);
+        //todo
+//        int rentDue = (controller.getCurrentPlayer().getAmountOfHouses() * houseMultiplier)
+//                + (controller.getCurrentPlayer().getAmountOfHotels * hotelMultiplier);
+//        controller.transferMoneyToOrFromBank(-1 * rentDue);
     }
 }
