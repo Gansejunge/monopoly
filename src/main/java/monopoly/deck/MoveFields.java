@@ -4,13 +4,13 @@ import monopoly.GameController;
 
 public class MoveFields implements Action{
     private int amountOfMoves;
-    private boolean getMoneyFromStart;
-    public MoveFields(int amountOfMoves,boolean getMoneyFromStart){
+
+    public MoveFields(int amountOfMoves){
         this.amountOfMoves=amountOfMoves;
-        this.getMoneyFromStart=getMoneyFromStart;
     }
+
     @Override
     public void perfom(GameController controller) {
-        controller.movePlayer(this.amountOfMoves,this.getMoneyFromStart);
+        controller.movePlayer(this.amountOfMoves);
     }
 }

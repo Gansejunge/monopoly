@@ -1,16 +1,18 @@
 package monopoly;
 
+import monopoly.field.Field;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-    private List<FieldTest> fields;
+    private List<Field> fields;
 
     public Board(){
         fields = new ArrayList<>();
     }
 
-    public FieldTest movePlayer(Player player, int step){
+    public Field movePlayer(Player player, int step){
         int resultingPosition = (player.getPosition() + step) % fields.size();
         player.setPosition(resultingPosition);
         return fields.get(resultingPosition);
