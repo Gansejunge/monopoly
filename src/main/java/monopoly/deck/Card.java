@@ -12,4 +12,5 @@ public class Card {
     public Action getAction(){
         return this.action;
     }
+    public CardType getCardType(){return this.cardType;}
 }
