@@ -19,8 +19,10 @@ public class GameController {
     }
     public void giveMoney(int amountOfMoney){
     }
-    public void movePlayer(int amountOfMoves,boolean getMoneyFromStart){
+
+    public void movePlayer(int amountOfMoves){
     }
+
     public void moveToField(int location,boolean getMoneyFromStart){
     }
 }
