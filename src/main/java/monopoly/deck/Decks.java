@@ -37,7 +37,7 @@ public class Decks {
         actionCards.add(new Card("Rücken Sie vor bis zur Seestraße. Wenn Sie über Los kommen, ziehen Sie € 200 ein.", new MoveToLocation(11, true), CardType.Ereigniskarte));
         actionCards.add(new Card("Sie sind zum Vorstand gewählt worden. Zahlen Sie jedem Spieler € 50.", new RedistributeMoneyToOrFromCurrentPlayer(-50), CardType.Ereigniskarte));
         actionCards.add(new Card("Ihr Bausparvertrag wird fällig. Sie erhalten € 200.", new GetMoneyAction(200), CardType.Ereigniskarte));
-        actionCards.add(new Card("Gehen Sie 3 Felder zurück.", new MoveFields(-3, true), CardType.Ereigniskarte));
+        actionCards.add(new Card("Gehen Sie 3 Felder zurück.", new MoveFields(-3), CardType.Ereigniskarte));
         actionCards.add(new Card("Strafzettel! Zahlen Sie € 15.", new GetMoneyAction(-15), CardType.Ereigniskarte));
         actionCards.add(new Card("Rücken Sie vor bis zum nächsten Verkehrsfeld. Der Eigentümer erhält das Doppelte der normalen Miete.\n" +
                 "Wenn das Verkehrsfeld noch niemandem gehört, können Sie es von der Bank kaufen.", new MoveToLocationWhilePossiblyPayingHigherRent(new int[]{5, 15, 25, 35}, 2), CardType.Ereigniskarte));
