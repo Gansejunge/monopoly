@@ -14,7 +14,7 @@ public class GameController {
         return player.get(this.currentPlayer);
     }
 
-    public ArrayList<Player> getOtherPlayer(){
+    public ArrayList<Player> getOtherPlayers(){
         ArrayList<Player> otherPlayer = new ArrayList<>(player);
         otherPlayer.remove(currentPlayer);
         return otherPlayer;
@@ -36,10 +36,21 @@ public class GameController {
     public void transferMoneyToOrFromBank(int amountOfMoney){
     }
 
+    public void transferMoneyToOrFromPlayer(Player otherPlayer,int moneyToGiveOrTake){
+    }
+
     public void movePlayer(int amountOfMoves){
     }
 
     public void moveToField(int location,boolean getMoneyFromStart){
+    }
+    public int getLocation(){
+        //todo
+        return 0;
+    }
+    public Board getMonopolyBoard(){
+        //todo
+        return null;
     }
 
 }
