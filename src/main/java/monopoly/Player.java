@@ -1,14 +1,14 @@
 package monopoly;
 
 import monopoly.deck.Card;
-import monopoly.field.Estate;
+import monopoly.field.Property;
 import java.util.ArrayList;
 
 public class Player {
     private String name;
     private int money = 0;
     private int position = 0;
-    private ArrayList<Estate> Estate= new ArrayList<>();
+    private ArrayList<Property> properties = new ArrayList<>();
     private ArrayList<Card> Card= new ArrayList<>();
     private int amountOfHouses;
     private int amountOfHotels;
@@ -41,8 +41,8 @@ public class Player {
         return this.money;
     }
 
-    public ArrayList<monopoly.field.Estate> getEstate() {
-        return this.Estate;
+    public ArrayList<monopoly.field.Property> getProperties() {
+        return this.properties;
     }
 
     public ArrayList<monopoly.deck.Card> getCard() {
