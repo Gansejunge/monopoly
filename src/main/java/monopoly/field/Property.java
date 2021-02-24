@@ -14,6 +14,13 @@ public abstract class Property extends Field {
         this.owner = owner;
     }
 
+    public boolean hasOwner(){
+        if(this.owner == null){
+            return false;
+        }
+        return true;
+    }
+
     public int getPrice() {
         return price;
     }

@@ -10,8 +10,8 @@ public class Trainstation extends Property {
         List<Property> properties = owner.getProperties();
         properties = properties.stream().filter(p -> p instanceof Trainstation).collect(Collectors.toList());
         int count = properties.size();
-        int price = count > 0 ? Math.pow(25,count-1) : 0;
-        return price;
+        double price = count > 0 ? Math.pow(25,count-1) : 0;
+        return (int)price;
     }
 }
 
