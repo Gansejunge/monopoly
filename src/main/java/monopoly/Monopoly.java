@@ -5,9 +5,7 @@ import monopoly.dice.DiceResult;
 import monopoly.field.Field;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Monopoly {
     public static void main( String[] args ) {
@@ -18,14 +16,12 @@ public class Monopoly {
 
         String[] playerNames = new String[playerCount];
         for(int i = 0; i < playerCount; ++i){
-            System.out.println("Spielername für Spieler " + i + " eingeben: ");
+            System.out.println("Spielername für Spieler " + i + 1 + " eingeben: ");
             playerNames[i] = inputScanner.next();
         }
 
-        List<Player> players = Arrays.stream(playerNames).map(Player::new).collect(Collectors.toList());
-        Board board = new Board();
+        GameController controller = new GameController(Arrays.asList(playerNames));
 
-        int currentPlayer = 0;
         while(true){
             System.out.println("Würfeln? (j/n)");
             String result = inputScanner.next();
@@ -33,17 +29,16 @@ public class Monopoly {
                 break;
             } else if("j".equals(result.strip())){
                 DiceResult diceResult = Dice.roll2Dice();
-                System.out.println("Spieler " + players.get(currentPlayer).getName() + " hat " + diceResult.getTotal() + " gewürfelt.");
-                Field resultField = board.movePlayer(players.get(currentPlayer), diceResult.getTotal());
+                System.out.println("Spieler " + controller.getCurrentPlayer().getName() + " hat " + diceResult.getTotal() + " gewürfelt.");
+                Field resultField = controller.getMonopolyBoard().movePlayer(controller.getCurrentPlayer(), diceResult.getTotal());
 
                 System.out.println("Du bist auf dem Feld " + resultField.getName() + " gelandet");
 
                 if(diceResult.isPair()){
                     System.out.println("Pasch. Du darfst nochmal.");
                 }else{
-                    currentPlayer = (currentPlayer + 1) % playerCount;
+                    controller.nextPlayer();
                 }
-
             }
         }
     }

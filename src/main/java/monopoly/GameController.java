@@ -1,35 +1,47 @@
 package monopoly;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameController {
-    private ArrayList<Player> player = new ArrayList<>();
+    private Board board;
+    private List<Player> players;
     private int currentPlayer = 0;
 
-    public ArrayList<Player> getPlayer(){
-        return player;
+    public GameController(List<String> playerNames){
+        this.board = new Board();
+        this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
+    }
+
+    public List<Player> getPlayers(){
+        return players;
     }
 
     public Player getCurrentPlayer(){
-        return player.get(this.currentPlayer);
+        return players.get(this.currentPlayer);
     }
 
-    public ArrayList<Player> getOtherPlayers(){
-        ArrayList<Player> otherPlayer = new ArrayList<>(player);
+    public void nextPlayer(){
+        currentPlayer = (currentPlayer + 1) % players.size();
+    }
+
+    public List<Player> getOtherPlayers(){
+        List<Player> otherPlayer = new ArrayList<>(players);
         otherPlayer.remove(currentPlayer);
         return otherPlayer;
     }
 
     public Player getNextPlayer() {
         this.currentPlayer++;
-        this.currentPlayer %= this.player.size();
-        return this.player.get(this.currentPlayer);
+        this.currentPlayer %= this.players.size();
+        return this.players.get(this.currentPlayer);
     }
 
     public void initPlayer(int amount){
         String name = "";
         for(int i = 0; i<amount; i++){
-           player.add(new Player(name));
+           players.add(new Player(name));
         }
     }
 
@@ -49,8 +61,7 @@ public class GameController {
         return 0;
     }
     public Board getMonopolyBoard(){
-        //todo
-        return null;
+        return board;
     }
 
 }
