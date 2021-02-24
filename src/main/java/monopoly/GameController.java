@@ -45,8 +45,12 @@ public class GameController {
     public void moveToField(int location,boolean getMoneyFromStart){
     }
     public int getLocation(){
+        //todo
+        return 0;
     }
     public Board getMonopolyBoard(){
+        //todo
+        return null;
     }
 
 }

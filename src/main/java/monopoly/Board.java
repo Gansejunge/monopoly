@@ -27,5 +27,7 @@ public class Board {
     }
 
     public Field getFieldAtIndex(int index){
+        //todo
+        return null;
     }
 }
