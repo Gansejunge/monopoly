@@ -46,5 +46,7 @@ public class GameController {
     }
     public int getLocation(){
     }
+    public Board getMonopolyBoard(){
+    }
 
 }

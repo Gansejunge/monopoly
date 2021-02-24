@@ -22,9 +22,9 @@ public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
                 break;
             }
         }
-        if  (!monopoly.Board.getPropertyAtIndex(locationToMoveTo).isEmpty()){
-            int rent=monopoly.Board.getPropertyAtIndex(locationToMoveTo).getRent()*rentMultiplier;
-        }
+//        if  (!controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo).hasOwner()){
+//            int rent=controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo).getRent()*rentMultiplier;
+//        }
         controller.moveToField(locationToMoveTo,true);
     }
 }

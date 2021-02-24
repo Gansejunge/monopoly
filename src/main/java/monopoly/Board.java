@@ -25,4 +25,7 @@ public class Board {
         fields.add(new Trainstation());
         fields.add(new Prison());
     }
+
+    public Field getFieldAtIndex(int index){
+    }
 }
