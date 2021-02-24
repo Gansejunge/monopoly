@@ -5,7 +5,7 @@ public class Estate extends Property{
     private int houses;
     private double[] rent;
 
-    public void Estate(String name, String color, double[] rent){
+    public Estate(String name, String color, double[] rent){
         super(name);
         this.color = color;
         this.houses = 0;

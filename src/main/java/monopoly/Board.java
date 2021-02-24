@@ -21,7 +21,7 @@ public class Board {
 
     private void initBoard(){
         fields.add(new Go());
-        fields.add(new Estate("Schlossallee", "red", new float[]{0.1f}));
+        fields.add(new Estate("Schlossallee", "red", new double[]{0.1}));
         fields.add(new Trainstation());
         fields.add(new Prison());
     }
