@@ -3,6 +3,7 @@ package monopoly;
 import monopoly.deck.Card;
 import monopoly.field.Property;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
     private String name;
@@ -41,7 +42,7 @@ public class Player {
         return this.money;
     }
 
-    public ArrayList<monopoly.field.Property> getProperties() {
+    public List<Property> getProperties() {
         return this.properties;
     }
 
