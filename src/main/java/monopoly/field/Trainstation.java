@@ -5,6 +5,10 @@ import math.pow;
 
 public class Trainstation extends Property {
 
+    public Trainstation(){
+        super("Bahnhof");
+    }
+
     @Override
     public double getRent() {
         ArrayList<Estate> Estate = owner.getEstate();
