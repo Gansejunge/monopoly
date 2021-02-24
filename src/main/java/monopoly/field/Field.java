@@ -1,8 +1,11 @@
 package monopoly.field;
 
+import monopoly.deck.Action;
+
+
 public abstract class Field {
     protected String name;
-    protected monopoly.deck.Action fieldAction;
+    protected Action fieldAction;
 
     public Field(){
         this.name = "test"; //todo
@@ -12,7 +15,7 @@ public abstract class Field {
         this.name = name;
     }
 
-    public monopoly.deck.Action getFieldAction() {
+    public Action getFieldAction() {
         return this.fieldAction;
     }
 

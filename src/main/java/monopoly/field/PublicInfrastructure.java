@@ -7,7 +7,7 @@ public class PublicInfrastructure extends Property{
     }
 
     @Override
-    public float getRent() {
+    public double getRent() {
         return 0;
     }
 }
