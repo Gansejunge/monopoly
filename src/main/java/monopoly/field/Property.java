@@ -28,6 +28,4 @@ public abstract class Property extends Field {
     public void setPrice(int price) {
         this.price = price;
     }
-
-    public abstract int getRent();
 }
