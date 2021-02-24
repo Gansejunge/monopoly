@@ -1,5 +1,4 @@
 package monopoly.field;
-import monopoly.dice
 import java.util.List;
 import java.util.stream.Collectors;
 
