@@ -5,6 +5,7 @@ import monopoly.Player;
 public abstract class Property extends Field {
     protected int price;
     protected Player owner;
+    protected PropertyGroup group;
 
     public Property(String name){
         super(name);
