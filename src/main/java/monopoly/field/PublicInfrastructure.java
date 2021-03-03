@@ -1,13 +1,15 @@
 package monopoly.field;
 
-public class PublicInfrastructure extends Property{
+import java.util.List;
 
-    public PublicInfrastructure(){
-        super("Werke");
+public class PublicInfrastructure extends Property{
+    public PublicInfrastructure(String name){
+        super(name);
     }
 
-    @Override
-    public double getRent() {
-        return 0;
+    public int getRent(int diceValue) {
+        List<Property> properties = owner.getProperties();
+        long count = properties.stream().filter(p -> p instanceof PublicInfrastructure).count();
+        return count == 1 ? diceValue * 4 : diceValue * 10;
     }
 }

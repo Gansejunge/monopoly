@@ -1,18 +1,13 @@
 package monopoly.field;
 
-import java.util.ArrayList;
-
 public class Trainstation extends Property {
-
-    public Trainstation(){
-        super("Bahnhof");
+    public Trainstation(String name){
+        super(name);
     }
 
-    @Override
-    public double getRent() {
-        ArrayList<Estate> Estate = owner.getEstate();
-        int count = Estate.size();
-        double price = count > 0 ? Math.pow(25,count-1) : 0;
-        return price;
+    public int getRent() {
+        long count = owner.getProperties().stream().filter(p -> p instanceof Trainstation).count();
+        return (int) (25 * Math.pow(2, count - 1));
     }
 }
+
