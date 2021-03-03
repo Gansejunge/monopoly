@@ -6,6 +6,9 @@ public abstract class Property extends Field {
     protected int price;
     protected Player owner;
 
+    public Property(String name){
+        super(name);
+    }
 
     public Player getOwner() {
         return owner;
@@ -16,10 +19,7 @@ public abstract class Property extends Field {
     }
 
     public boolean hasOwner(){
-        if(this.owner == null){
-            return false;
-        }
-        return true;
+        return this.owner != null;
     }
 
     public int getPrice() {
@@ -28,6 +28,5 @@ public abstract class Property extends Field {
 
     public void setPrice(int price) {
         this.price = price;
-
     }
 }

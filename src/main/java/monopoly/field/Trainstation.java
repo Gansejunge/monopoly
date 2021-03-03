@@ -5,12 +5,10 @@ import java.util.stream.Collectors;
 
 
 public class Trainstation extends Property {
-
-    public Trainstation(){
-        super("Bahnhof");
+    public Trainstation(String name){
+        super(name);
     }
 
-    @Override
     public int getRent() {
         List<Property> properties = owner.getProperties();
         properties = properties.stream().filter(p -> p instanceof Trainstation).collect(Collectors.toList());

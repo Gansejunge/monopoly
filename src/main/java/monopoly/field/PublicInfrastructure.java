@@ -1,19 +1,15 @@
 package monopoly.field;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PublicInfrastructure extends Property{
-
-    public PublicInfrastructure(){
-        super("Werke");
+    public PublicInfrastructure(String name){
+        super(name);
     }
 
     public int getRent(int diceValue) {
         List<Property> properties = owner.getProperties();
-        properties = properties.stream().filter(p -> p instanceof PublicInfrastructure).collect(Collectors.toList());
-        int count = properties.size();
-        int rent = count == 1 ? diceValue * 4 : diceValue * 10;
-        return rent;
-
+        long count = properties.stream().filter(p -> p instanceof PublicInfrastructure).count();
+        return count == 1 ? diceValue * 4 : diceValue * 10;
     }
 }

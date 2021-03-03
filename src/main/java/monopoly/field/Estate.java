@@ -5,17 +5,14 @@ public class Estate extends Property{
     private int houses;
     private int[] rent;
   
-    public void Estate(String name, String color, int[] rent){
-        this.name = name;
-
+    public Estate(String name, String color, int[] rent){
+        super(name);
         this.color = color;
         this.houses = 0;
         this.rent = rent;
     }
-    @Override
+
     public int getRent(){
         return rent[houses];
     }
-
-
 }
