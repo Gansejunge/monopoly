@@ -1,5 +1,8 @@
 package monopoly;
 
+import monopoly.field.Field;
+import monopoly.field.Property;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,8 +36,7 @@ public class GameController {
     }
 
     public Player getNextPlayer() {
-        this.currentPlayer++;
-        this.currentPlayer %= this.players.size();
+        this.nextPlayer();
         return this.players.get(this.currentPlayer);
     }
 
@@ -43,6 +45,23 @@ public class GameController {
         for(int i = 0; i<amount; i++){
            players.add(new Player(name));
         }
+    }
+
+    public void startAuction(Field property){
+        List<Player> tempPlayers = new ArrayList<>(players);
+        int tempCurrentPlayer = this.currentPlayer;
+        Double bid = 0.0;
+        Double tempBid = 0.0;
+        while(tempPlayers.size()>1){
+            tempBid = tempPlayers.get(tempCurrentPlayer).insertBid(bid);
+            if(tempBid == 0) {
+                tempPlayers.remove(tempCurrentPlayer);
+                continue;
+            }
+            bid = tempBid;
+            tempCurrentPlayer = (tempCurrentPlayer + 1) % tempPlayers.size();
+        }
+        property.setOwner(tempPlayers.get(0));
     }
 
     public void transferMoneyToOrFromBank(int amountOfMoney){
@@ -63,5 +82,6 @@ public class GameController {
     public Board getMonopolyBoard(){
         return board;
     }
+
 
 }

@@ -2,7 +2,10 @@ package monopoly;
 
 import monopoly.deck.Card;
 import monopoly.field.Estate;
+
+import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player {
     private String name;
@@ -47,5 +50,17 @@ public class Player {
 
     public ArrayList<monopoly.deck.Card> getCard() {
         return this.Card;
+    }
+
+    public double insertBid(double bid){
+        Scanner inputScanner = new Scanner(System.in);
+        System.out.printf("Geben Sie ein Gebot ein. Es muss größer als sein als %f", bid);
+        Double tempBid = 0.0;
+       do{
+           System.out.printf("%s, bitte geben Sie ein Gebot ein. Es muss größer als sein als %f", this.name, bid);
+           tempBid = inputScanner.nextDouble();
+       }
+       while(tempBid < bid || tempBid == 0);
+       return tempBid;
     }
 }
