@@ -1,6 +1,5 @@
 package monopoly;
 
-import monopoly.field.Field;
 import monopoly.field.Property;
 
 import java.util.ArrayList;
@@ -47,11 +46,11 @@ public class GameController {
         }
     }
 
-    public void startAuction(Field property){
+    public void startAuction(Property property){
         List<Player> tempPlayers = new ArrayList<>(players);
         int tempCurrentPlayer = this.currentPlayer;
-        Double bid = 0.0;
-        Double tempBid = 0.0;
+        double bid = 0.0;
+        double tempBid;
         while(tempPlayers.size()>1){
             tempBid = tempPlayers.get(tempCurrentPlayer).insertBid(bid);
             if(tempBid == 0) {
