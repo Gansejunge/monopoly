@@ -10,9 +10,8 @@ public class RedistributeMoneyToOrFromCurrentPlayer implements Action{
     }
     @Override
     public void perfom(GameController controller) {
-//        todo
-//        for (Player otherPlayer:controller.getOtherPlayers(controller.getCurrentPlayer())){
-//            controller.getCurrentPlayer().giveMoney(otherPlayer,moneyToGiveOrTake);
-//        }
+            for (Player otherPlayer:controller.getOtherPlayers()){
+                controller.transferMoneyToOrFromPlayer(otherPlayer,moneyToGiveOrTake);
+        }
     }
 }

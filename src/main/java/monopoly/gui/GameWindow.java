@@ -16,8 +16,6 @@ public class GameWindow extends Application{
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        //Creating an image
-        System.out.println("cwd" + System.getProperty("user.dir"));
         Image image = new Image(new FileInputStream("./img/logo.png"));
         ImageView imageView = new ImageView(image);
         imageView.setPreserveRatio(true);

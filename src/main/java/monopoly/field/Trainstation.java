@@ -3,7 +3,12 @@ package monopoly.field;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class Trainstation extends Property {
+
+    public Trainstation(){
+        super("Bahnhof");
+    }
 
     @Override
     public int getRent() {

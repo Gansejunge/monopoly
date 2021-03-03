@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 public class PublicInfrastructure extends Property{
 
     public PublicInfrastructure(){
-
+        super("Werke");
     }
 
     public int getRent(int diceValue) {
@@ -14,5 +14,6 @@ public class PublicInfrastructure extends Property{
         int count = properties.size();
         int rent = count == 1 ? diceValue * 4 : diceValue * 10;
         return rent;
+
     }
 }
