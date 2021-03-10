@@ -1,5 +1,8 @@
 package monopoly;
 
+import monopoly.dice.Dice;
+import monopoly.dice.DiceResult;
+import monopoly.field.Field;
 import monopoly.field.Property;
 
 import java.util.ArrayList;
@@ -10,10 +13,49 @@ public class GameController {
     private Board board;
     private List<Player> players;
     private int currentPlayer = 0;
+    private int currentRollCount = 0;
+    private DiceResult currentDiceResult;
 
     public GameController(List<String> playerNames){
         this.board = new Board();
         this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
+    }
+
+    public Field nextMove(){
+        Field result;
+
+        currentDiceResult = Dice.roll2Dice();
+        currentRollCount++;
+
+        if(getCurrentPlayer().isInPrison()){
+            getCurrentPlayer().addTurnInPrison();
+
+            if(currentDiceResult.isPair()){
+                getCurrentPlayer().setInPrison(false);
+                result = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
+            } else{
+                result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
+                if(getCurrentPlayer().getTurnsInPrison() == 3) {
+                    //todo: pay your dirty moneys to become a free (wo-)man
+                }
+            }
+
+            nextPlayer();
+        } else{
+            if(currentRollCount == 3 && currentDiceResult.isPair()){
+                getCurrentPlayer().setPosition(11); //todo nicht über index?
+                getCurrentPlayer().setInPrison(true);
+                result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
+            } else{
+                result = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
+            }
+
+            if(!currentDiceResult.isPair()){
+                nextPlayer();
+            }
+        }
+
+        return result;
     }
 
     public List<Player> getPlayers(){
@@ -25,6 +67,8 @@ public class GameController {
     }
 
     public void nextPlayer(){
+        currentRollCount = 0;
+        currentDiceResult = null;
         currentPlayer = (currentPlayer + 1) % players.size();
     }
 
