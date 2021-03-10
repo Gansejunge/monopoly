@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class GameController {
+    public static final int MOVE_TO_PRISON_ROLL_COUNT = 3;
+
     private Board board;
     private List<Player> players;
     private int currentPlayer = 0;
@@ -46,7 +48,7 @@ public class GameController {
 
             nextPlayer();
         } else{
-            if(currentRollCount == 3 && currentDiceResult.isPair()){
+            if(currentRollCount == MOVE_TO_PRISON_ROLL_COUNT && currentDiceResult.isPair()){
                 getCurrentPlayer().setPosition(11); //todo nicht über index?
                 getCurrentPlayer().setInPrison(true);
                 result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
