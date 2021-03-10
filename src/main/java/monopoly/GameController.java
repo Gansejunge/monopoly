@@ -3,6 +3,8 @@ package monopoly;
 import monopoly.dice.Dice;
 import monopoly.dice.DiceResult;
 import monopoly.field.Field;
+import monopoly.deck.CardType;
+import monopoly.deck.Decks;
 import monopoly.field.Property;
 
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ public class GameController {
     private Board board;
     private List<Player> players;
     private int currentPlayer = 0;
+    private Decks decks;
     private int currentRollCount = 0;
     private DiceResult currentDiceResult;
 
@@ -88,6 +91,11 @@ public class GameController {
         for(int i = 0; i<amount; i++){
            players.add(new Player(name));
         }
+    }
+
+
+    public void drawCard(CardType cardType){
+        this.decks.drawCard(cardType);
     }
 
     public void startAuction(Property property){
