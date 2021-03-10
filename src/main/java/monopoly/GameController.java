@@ -1,10 +1,10 @@
 package monopoly;
 
+import monopoly.deck.CardType;
+import monopoly.deck.Decks;
 import monopoly.dice.Dice;
 import monopoly.dice.DiceResult;
 import monopoly.field.Field;
-import monopoly.deck.CardType;
-import monopoly.deck.Decks;
 import monopoly.field.Property;
 
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ public class GameController {
     public GameController(List<String> playerNames){
         this.board = new Board();
         this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
+        this.decks = new Decks();
     }
 
     public Field nextMove(){
