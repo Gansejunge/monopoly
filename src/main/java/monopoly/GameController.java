@@ -1,10 +1,10 @@
 package monopoly;
 
+import monopoly.dice.Dice;
+import monopoly.dice.DiceResult;
 import monopoly.field.Property;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameController {
@@ -72,6 +72,17 @@ public class GameController {
         }
         while(tempBid < bid || tempBid == 0);
         return tempBid;
+    }
+
+    public void setPlayersOrder(){
+        HashMap<Player, Integer> hm = new HashMap<>();
+        for(Player p : players){
+            DiceResult result = Dice.roll2Dice();
+            hm.put(p, result.getTotal());
+        }
+        hm.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue());
     }
 
     public void transferMoneyToOrFromBank(int amountOfMoney){
