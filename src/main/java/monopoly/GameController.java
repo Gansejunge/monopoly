@@ -1,5 +1,8 @@
 package monopoly;
 
+import monopoly.deck.CardType;
+import monopoly.deck.Decks;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,6 +11,7 @@ public class GameController {
     private Board board;
     private List<Player> players;
     private int currentPlayer = 0;
+    private Decks decks;
 
     public GameController(List<String> playerNames){
         this.board = new Board();
@@ -43,6 +47,10 @@ public class GameController {
         for(int i = 0; i<amount; i++){
            players.add(new Player(name));
         }
+    }
+
+    public void drawCard(CardType cardType){
+        this.decks.drawCard(cardType);
     }
 
     public void transferMoneyToOrFromBank(int amountOfMoney){
