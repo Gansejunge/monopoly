@@ -1,36 +1,59 @@
 package monopoly.gui;
 
-import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
+import javafx.scene.Scene;
+import javafx.scene.text.Text;
+import monopoly.Player;
 
 public class GameWindow extends Application{
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        Image image = new Image(new FileInputStream("./img/logo.png"));
-        ImageView imageView = new ImageView(image);
-        imageView.setPreserveRatio(true);
-        imageView.setFitHeight(455);
-        imageView.setFitWidth(500);
-        imageView.setPreserveRatio(true);
-        HBox hboxImage = new HBox();
-        hboxImage.setAlignment(Pos.CENTER);
-        hboxImage.getChildren().add(imageView);
-        Scene scene = new Scene(hboxImage, 600, 500);
         stage.setTitle("Monopoly");
-        stage.setScene(scene);
 
+        int width = 1200;
+        int height = 900;
+
+        int bottomPaneHeight = 100;
+        int boardHeight = height - bottomPaneHeight;
+        int boardWidth = 800;
+        int sidebarHeight = height - bottomPaneHeight;
+        int sidebarWidth = 400;
+        // main layout
+        BorderPane mainLayout = new BorderPane();
+
+        /////////////////////////
+        // left side
+        ////////////////////////
+        Board board = new Board(boardWidth, boardHeight);
+        mainLayout.setLeft(board.getNode());
+
+        /////////////////////////
+        // right side
+        ////////////////////////
+        String[] players = {"Florian", "Dennis", "Tobias"};
+        PlayerSidebar playerSidebar = new PlayerSidebar(sidebarWidth, sidebarHeight, players);
+
+
+        mainLayout.setRight(playerSidebar.getNode());
+
+        /////////////////////////
+        // bottom pane
+        ////////////////////////
+        VBox bottomPane = new VBox();
+        bottomPane.setPrefHeight(bottomPaneHeight);
+        mainLayout.setBottom(bottomPane);
+        Scene scene = new Scene(mainLayout, width, height);
+        stage.setScene(scene);
         stage.show();
     }
+
+
 
     public static void main(String[] args) {
         launch();

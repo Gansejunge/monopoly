@@ -2,6 +2,8 @@ package monopoly;
 
 import monopoly.deck.CardType;
 import monopoly.deck.Decks;
+import monopoly.field.Property;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +39,7 @@ public class GameController {
     }
 
     public Player getNextPlayer() {
-        this.currentPlayer++;
-        this.currentPlayer %= this.players.size();
+        this.nextPlayer();
         return this.players.get(this.currentPlayer);
     }
 
@@ -49,8 +50,26 @@ public class GameController {
         }
     }
 
+
     public void drawCard(CardType cardType){
         this.decks.drawCard(cardType);
+    }
+
+    public void startAuction(Property property){
+        List<Player> tempPlayers = new ArrayList<>(players);
+        int tempCurrentPlayer = this.currentPlayer;
+        double bid = 0.0;
+        double tempBid;
+        while(tempPlayers.size()>1){
+            tempBid = tempPlayers.get(tempCurrentPlayer).insertBid(bid);
+            if(tempBid == 0) {
+                tempPlayers.remove(tempCurrentPlayer);
+                continue;
+            }
+            bid = tempBid;
+            tempCurrentPlayer = (tempCurrentPlayer + 1) % tempPlayers.size();
+        }
+        property.setOwner(tempPlayers.get(0));
     }
 
     public void transferMoneyToOrFromBank(int amountOfMoney){
@@ -71,5 +90,6 @@ public class GameController {
     public Board getMonopolyBoard(){
         return board;
     }
+
 
 }
