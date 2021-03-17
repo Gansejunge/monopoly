@@ -1,20 +1,66 @@
 package monopoly;
 
+import monopoly.deck.CardType;
+import monopoly.deck.Decks;
 import monopoly.dice.Dice;
 import monopoly.dice.DiceResult;
+import monopoly.field.Field;
 import monopoly.field.Property;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameController {
+    public static final int MOVE_TO_PRISON_ROLL_COUNT = 3;
+
     private Board board;
     private List<Player> players;
     private int currentPlayer = 0;
+    private Decks decks;
+    private int currentRollCount = 0;
+    private DiceResult currentDiceResult;
 
     public GameController(List<String> playerNames){
         this.board = new Board();
         this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
+        this.decks = new Decks();
+    }
+
+    public Field nextMove(){
+        Field result;
+
+        currentDiceResult = Dice.roll2Dice();
+        currentRollCount++;
+
+        if(getCurrentPlayer().isInPrison()){
+            getCurrentPlayer().addTurnInPrison();
+
+            if(currentDiceResult.isPair()){
+                getCurrentPlayer().setInPrison(false);
+                result = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
+            } else{
+                result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
+                if(getCurrentPlayer().getTurnsInPrison() == 3) {
+                    //todo: pay your dirty moneys to become a free (wo-)man
+                }
+            }
+
+            nextPlayer();
+        } else{
+            if(currentRollCount == MOVE_TO_PRISON_ROLL_COUNT && currentDiceResult.isPair()){
+                getCurrentPlayer().setPosition(11); //todo nicht über index?
+                getCurrentPlayer().setInPrison(true);
+                result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
+            } else{
+                result = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
+            }
+
+            if(!currentDiceResult.isPair()){
+                nextPlayer();
+            }
+        }
+
+        return result;
     }
 
     public List<Player> getPlayers(){
@@ -26,6 +72,8 @@ public class GameController {
     }
 
     public void nextPlayer(){
+        currentRollCount = 0;
+        currentDiceResult = null;
         currentPlayer = (currentPlayer + 1) % players.size();
     }
 
@@ -45,6 +93,11 @@ public class GameController {
         for(int i = 0; i<amount; i++){
            players.add(new Player(name));
         }
+    }
+
+
+    public void drawCard(CardType cardType){
+        this.decks.drawCard(cardType);
     }
 
     public void startAuction(Property property){
