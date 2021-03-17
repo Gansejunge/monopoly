@@ -1,5 +1,6 @@
 package monopoly;
 
+import monopoly.deck.Card;
 import monopoly.deck.CardType;
 import monopoly.deck.Decks;
 import monopoly.dice.Dice;
@@ -97,7 +98,8 @@ public class GameController {
 
 
     public void drawCard(CardType cardType){
-        this.decks.drawCard(cardType);
+        Card card =  this.decks.drawCard(cardType);
+        card.getAction().perfom(this);
     }
 
     public void startAuction(Property property){
