@@ -13,6 +13,6 @@ public class MoveToLocation implements Action{
 
     @Override
     public void perfom(GameController controller) {
-        controller.moveToField(this.location,this.getMoneyFromStart);
+        controller.getCurrentPlayer().moveToField(this.location,this.getMoneyFromStart);
     }
 }

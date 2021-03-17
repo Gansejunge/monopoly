@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 public class Player {
     private String name;
+
     private int money = 0;
     private int position = 0;
     private boolean isInPrison;
@@ -61,5 +62,28 @@ public class Player {
 
     public ArrayList<monopoly.deck.Card> getCard() {
         return this.Card;
+    }
+
+    public void addMoney(int amountOfMoney){
+        this.money += amountOfMoney;
+    }
+
+    public void addMoneyFromOtherPlayer(Player otherPlayer,int moneyToGiveOrTake){
+        this.money += moneyToGiveOrTake;
+        otherPlayer.addMoney(-moneyToGiveOrTake);
+    }
+
+    public void movePlayer(int amountOfMoves){
+        this.position += amountOfMoves;
+    }
+
+    public void moveToField(int location,boolean getMoneyFromStart){
+        this.setPosition(location);
+        if(getMoneyFromStart) this.addMoney(1000);
+    }
+
+    public int getLocation(){
+        //todo
+        return 0;
     }
 }
