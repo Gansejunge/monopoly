@@ -42,7 +42,7 @@ public class GameController {
             } else{
                 result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
                 if(getCurrentPlayer().getTurnsInPrison() == 3) {
-                    //todo: pay your dirty moneys to become a free (wo-)man
+                   result.getFieldAction().perfom(this);
                 }
             }
 
