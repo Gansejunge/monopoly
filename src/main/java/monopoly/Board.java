@@ -13,6 +13,10 @@ public class Board {
         initBoard();
     }
 
+    public List<Field> getAllFields(){
+        return fields;
+    }
+
     public Field movePlayer(Player player, int step){
         int resultingPosition = (player.getPosition() + step) % fields.size();
         player.setPosition(resultingPosition);

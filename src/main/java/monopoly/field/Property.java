@@ -9,6 +9,8 @@ public abstract class Property extends Field {
 
     public Property(String name){
         super(name);
+
+        group = new PropertyGroup(); //todo
     }
 
     public Player getOwner() {
@@ -29,5 +31,9 @@ public abstract class Property extends Field {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public PropertyGroup getGroup() {
+        return group;
     }
 }
