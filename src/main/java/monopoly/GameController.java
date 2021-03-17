@@ -7,8 +7,7 @@ import monopoly.dice.DiceResult;
 import monopoly.field.Field;
 import monopoly.field.Property;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameController {
@@ -107,7 +106,7 @@ public class GameController {
         double bid = 0.0;
         double tempBid;
         while(tempPlayers.size()>1){
-            tempBid = tempPlayers.get(tempCurrentPlayer).insertBid(bid);
+            tempBid = this.insertBid(tempPlayers.get(tempCurrentPlayer), bid);
             if(tempBid == 0) {
                 tempPlayers.remove(tempCurrentPlayer);
                 continue;
@@ -117,7 +116,29 @@ public class GameController {
         }
         property.setOwner(tempPlayers.get(0));
     }
+    public double insertBid(Player player, double bid){
+        Scanner inputScanner = new Scanner(System.in);
+        double tempBid;
+        do{
+            System.out.printf("%s, bitte geben Sie ein Gebot ein. Es muss größer als sein als %f", player.getName(), bid);
+            tempBid = inputScanner.nextDouble();
+        }
+        while(tempBid < bid || tempBid == 0);
+        return tempBid;
+    }
 
+    public void setPlayersOrder() {
+        HashMap<Player, Integer> hm = new HashMap<>();
+        ArrayList<Player> tempPlayers = new ArrayList<>();
+        for (Player p : players) {
+            DiceResult result = Dice.roll2Dice();
+            hm.put(p, result.getTotal());
+        }
+        hm.entrySet()
+                .stream()
+                .sorted(Map.Entry.<Player, Integer>comparingByValue().reversed()).forEach(e -> tempPlayers.add(e.getKey()));
+        this.players = tempPlayers;
+    }
     public void transferMoneyToOrFromBank(int amountOfMoney){
     }
 
