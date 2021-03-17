@@ -11,7 +11,7 @@ public class Estate extends Property{
         this.houses = 0;
         this.rent = rent;
     }
-
+    public int getBuildings(){return this.houses;}
     public int getRent(){
         return rent[houses];
     }

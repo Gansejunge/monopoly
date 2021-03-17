@@ -15,6 +15,7 @@ public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
         //todo
         int currentLocation=controller.getLocation();
         int locationToMoveTo=0;
+        //todo take advantage of the new Property layout
         if (currentLocation>location[location.length-1]) locationToMoveTo=location[0];
         else{
             for (int i = 0; i < location.length; i++) {
