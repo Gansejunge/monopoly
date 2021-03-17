@@ -74,17 +74,18 @@ public class GameController {
         return tempBid;
     }
 
-    public void setPlayersOrder(){
+    public void setPlayersOrder() {
         HashMap<Player, Integer> hm = new HashMap<>();
-        for(Player p : players){
+        ArrayList<Player> tempPlayers = new ArrayList<>();
+        for (Player p : players) {
             DiceResult result = Dice.roll2Dice();
             hm.put(p, result.getTotal());
         }
         hm.entrySet()
                 .stream()
-                .sorted(Map.Entry.comparingByValue());
+                .sorted(Map.Entry.<Player, Integer>comparingByValue().reversed()).forEach(e -> tempPlayers.add(e.getKey()));
+        this.players = tempPlayers;
     }
-
     public void transferMoneyToOrFromBank(int amountOfMoney){
     }
 
