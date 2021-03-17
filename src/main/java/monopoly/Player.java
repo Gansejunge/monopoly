@@ -15,16 +15,6 @@ public class Player {
     private int turnsInPrison;
     private ArrayList<Property> properties = new ArrayList<>();
     private ArrayList<Card> Card= new ArrayList<>();
-    private int amountOfHouses;
-    private int amountOfHotels;
-
-    public int getAmountOfHouses() {
-        return this.amountOfHouses;
-    }
-
-    public int getAmountOfHotels() {
-        return this.amountOfHotels;
-    }
 
     public Player(String name){
         this.name = name;
