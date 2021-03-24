@@ -63,7 +63,6 @@ public class Board {
     }
 
     public Field getFieldAtIndex(int index){
-        //todo
-        return null;
+        return this.fields.get(index);
     }
 }
