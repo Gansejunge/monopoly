@@ -99,7 +99,7 @@ public class MainView implements Initializable {
 
         var fields = controller.getMonopolyBoard().getAllFields();
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < 4; ++i) {
             Group row = new Group();
 
             for (int x = 0; x < 10; ++x) {
@@ -134,11 +134,11 @@ public class MainView implements Initializable {
                 row.setTranslateX(0.5 * -i * FIELD_WIDTH * 11 - FIELD_WIDTH);
                 row.setTranslateY(0.5 * -i * FIELD_WIDTH * 11 + FIELD_WIDTH);
             } else if (i == 2) {
-                row.setTranslateX(0 * i * FIELD_WIDTH * 11);
+                row.setTranslateX(-FIELD_WIDTH * 2);
                 row.setTranslateY(0.5 * -i * FIELD_WIDTH * 11);
             } else if (i == 3) {
-                row.setTranslateX(i * FIELD_WIDTH * 11);
-                row.setTranslateY(i * FIELD_WIDTH * 11);
+                row.setTranslateX(0.25 * i * FIELD_WIDTH * 10 - 3 * FIELD_WIDTH);
+                row.setTranslateY(0.25 * -i * FIELD_WIDTH * 10 + FIELD_WIDTH);
             }
             board.getChildren().add(row);
         }

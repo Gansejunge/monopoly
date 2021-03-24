@@ -2,9 +2,9 @@ package monopoly.deck;
 
 import monopoly.GameController;
 
-public class EscapePrison implements Action{
+public class AdditionalTax implements Action{
     @Override
     public void perfom(GameController controller) {
-        controller.getCurrentPlayer().setInPrison(false);
+        controller.getCurrentPlayer().addMoney(-500);
     }
 }

@@ -9,22 +9,13 @@ import java.util.Scanner;
 
 public class Player {
     private String name;
+
     private int money = 0;
     private int position = 0;
     private boolean isInPrison;
     private int turnsInPrison;
     private ArrayList<Property> properties = new ArrayList<>();
     private ArrayList<Card> Card= new ArrayList<>();
-    private int amountOfHouses;
-    private int amountOfHotels;
-
-    public int getAmountOfHouses() {
-        return this.amountOfHouses;
-    }
-
-    public int getAmountOfHotels() {
-        return this.amountOfHotels;
-    }
 
     public Player(String name){
         this.name = name;
@@ -73,15 +64,21 @@ public class Player {
         return this.Card;
     }
 
-    public double insertBid(double bid){
-        Scanner inputScanner = new Scanner(System.in);
-        System.out.printf("Geben Sie ein Gebot ein. Es muss größer als sein als %f", bid);
-        Double tempBid = 0.0;
-       do{
-           System.out.printf("%s, bitte geben Sie ein Gebot ein. Es muss größer als sein als %f", this.name, bid);
-           tempBid = inputScanner.nextDouble();
-       }
-       while(tempBid < bid || tempBid == 0);
-       return tempBid;
+    public void addMoney(int amountOfMoney){
+        this.money += amountOfMoney;
+    }
+
+    public void addMoneyFromOtherPlayer(Player otherPlayer,int moneyToGiveOrTake){
+        this.money += moneyToGiveOrTake;
+        otherPlayer.addMoney(-moneyToGiveOrTake);
+    }
+
+    public void movePlayer(int amountOfMoves){
+        this.position += amountOfMoves;
+    }
+
+    public void moveToField(int location,boolean getMoneyFromStart){
+        this.setPosition(location);
+        if(getMoneyFromStart) this.addMoney(1000);
     }
 }

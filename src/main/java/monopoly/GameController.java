@@ -1,5 +1,6 @@
 package monopoly;
 
+import monopoly.deck.Card;
 import monopoly.deck.CardType;
 import monopoly.deck.Decks;
 import monopoly.dice.Dice;
@@ -8,8 +9,7 @@ import monopoly.field.Field;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameController {
@@ -44,7 +44,7 @@ public class GameController {
             } else{
                 result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
                 if(getCurrentPlayer().getTurnsInPrison() == 3) {
-                    //todo: pay your dirty moneys to become a free (wo-)man
+                   result.getFieldAction().perfom(this);
                 }
             }
 
@@ -100,7 +100,8 @@ public class GameController {
 
 
     public void drawCard(CardType cardType){
-        this.decks.drawCard(cardType);
+        Card card =  this.decks.drawCard(cardType);
+        card.getAction().perfom(this);
     }
 
     public void startAuction(Property property){
@@ -109,7 +110,7 @@ public class GameController {
         double bid = 0.0;
         double tempBid;
         while(tempPlayers.size()>1){
-            tempBid = tempPlayers.get(tempCurrentPlayer).insertBid(bid);
+            tempBid = this.insertBid(tempPlayers.get(tempCurrentPlayer), bid);
             if(tempBid == 0) {
                 tempPlayers.remove(tempCurrentPlayer);
                 continue;
@@ -119,22 +120,30 @@ public class GameController {
         }
         property.setOwner(tempPlayers.get(0));
     }
-
-    public void transferMoneyToOrFromBank(int amountOfMoney){
+    public double insertBid(Player player, double bid){
+        Scanner inputScanner = new Scanner(System.in);
+        double tempBid;
+        do{
+            System.out.printf("%s, bitte geben Sie ein Gebot ein. Es muss größer als sein als %f", player.getName(), bid);
+            tempBid = inputScanner.nextDouble();
+        }
+        while(tempBid < bid || tempBid == 0);
+        return tempBid;
     }
 
-    public void transferMoneyToOrFromPlayer(Player otherPlayer,int moneyToGiveOrTake){
+    public void setPlayersOrder() {
+        HashMap<Player, Integer> hm = new HashMap<>();
+        ArrayList<Player> tempPlayers = new ArrayList<>();
+        for (Player p : players) {
+            DiceResult result = Dice.roll2Dice();
+            hm.put(p, result.getTotal());
+        }
+        hm.entrySet()
+                .stream()
+                .sorted(Map.Entry.<Player, Integer>comparingByValue().reversed()).forEach(e -> tempPlayers.add(e.getKey()));
+        this.players = tempPlayers;
     }
 
-    public void movePlayer(int amountOfMoves){
-    }
-
-    public void moveToField(int location,boolean getMoneyFromStart){
-    }
-    public int getLocation(){
-        //todo
-        return 0;
-    }
     public Board getMonopolyBoard(){
         return board;
     }

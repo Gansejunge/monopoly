@@ -2,9 +2,8 @@ package monopoly.deck;
 
 import monopoly.GameController;
 
-public class EscapePrison implements Action{
-    @Override
+public class DrawActionCard implements Action {
     public void perfom(GameController controller) {
-        controller.getCurrentPlayer().setInPrison(false);
+        controller.drawCard(CardType.Ereigniskarte);
     }
 }

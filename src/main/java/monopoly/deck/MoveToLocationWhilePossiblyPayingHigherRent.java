@@ -1,31 +1,38 @@
 package monopoly.deck;
 
 import monopoly.GameController;
+import monopoly.field.Estate;
+
 
 public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
-    private int[] location;
-    private int rentMultiplier;
+    final int[] locationOfEstatesPlayerIsMovingTo;
+    final int rentMultiplier;
 
-    public MoveToLocationWhilePossiblyPayingHigherRent(int[] location,int rentMultiplier){
-        this.location=location;
+    public MoveToLocationWhilePossiblyPayingHigherRent(int[] locationOfEstatesPlayerIsMovingTo, int rentMultiplier){
+        this.locationOfEstatesPlayerIsMovingTo = locationOfEstatesPlayerIsMovingTo;
         this.rentMultiplier=rentMultiplier;
     }
     @Override
     public void perfom(GameController controller) {
-        //todo
-        int currentLocation=controller.getLocation();
+        int currentLocation=controller.getCurrentPlayer().getPosition();
         int locationToMoveTo=0;
-        if (currentLocation>location[location.length-1]) locationToMoveTo=location[0];
+        //todo take advantage of the new Property layout
+        if (currentLocation> locationOfEstatesPlayerIsMovingTo[locationOfEstatesPlayerIsMovingTo.length-1]) locationToMoveTo= locationOfEstatesPlayerIsMovingTo[0];
         else{
-            for (int i = 0; i < location.length; i++) {
-                if(currentLocation<location[i]) locationToMoveTo=i;
-                break;
+            for (int i = 0; i < locationOfEstatesPlayerIsMovingTo.length; i++) {
+                if(currentLocation< locationOfEstatesPlayerIsMovingTo[i]) {
+                    locationToMoveTo = i;
+                    break;
+                }
             }
         }
         //todo
-//        if  (!controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo).hasOwner()){
-//            int rent=controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo).getRent()*rentMultiplier;
-//        }
-        controller.moveToField(locationToMoveTo,true);
+        Estate propertyAtNewLocation= (Estate) controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo);
+        if  (!propertyAtNewLocation.hasOwner()){
+            int rent=-1*propertyAtNewLocation.getRent()*this.rentMultiplier;
+            controller.getCurrentPlayer().addMoneyFromOtherPlayer(propertyAtNewLocation.getOwner(), rent);
+        }
+        controller.getCurrentPlayer().moveToField(locationToMoveTo,true);
+
     }
 }
