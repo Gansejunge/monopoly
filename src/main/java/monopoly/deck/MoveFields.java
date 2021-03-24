@@ -11,6 +11,6 @@ public class MoveFields implements Action{
 
     @Override
     public void perfom(GameController controller) {
-        controller.movePlayer(this.amountOfMoves);
+        controller.getCurrentPlayer().movePlayer(this.amountOfMoves);
     }
 }

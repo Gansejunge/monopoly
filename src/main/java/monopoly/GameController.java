@@ -141,21 +141,7 @@ public class GameController {
                 .sorted(Map.Entry.<Player, Integer>comparingByValue().reversed()).forEach(e -> tempPlayers.add(e.getKey()));
         this.players = tempPlayers;
     }
-    public void transferMoneyToOrFromBank(int amountOfMoney){
-    }
 
-    public void transferMoneyToOrFromPlayer(Player otherPlayer,int moneyToGiveOrTake){
-    }
-
-    public void movePlayer(int amountOfMoves){
-    }
-
-    public void moveToField(int location,boolean getMoneyFromStart){
-    }
-    public int getLocation(){
-        //todo
-        return 0;
-    }
     public Board getMonopolyBoard(){
         return board;
     }

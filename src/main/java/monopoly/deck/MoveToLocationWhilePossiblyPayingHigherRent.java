@@ -13,7 +13,7 @@ public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
     @Override
     public void perfom(GameController controller) {
         //todo
-        int currentLocation=controller.getLocation();
+        int currentLocation=controller.getCurrentPlayer().getLocation();
         int locationToMoveTo=0;
         //todo take advantage of the new Property layout
         if (currentLocation>location[location.length-1]) locationToMoveTo=location[0];
@@ -27,6 +27,6 @@ public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
 //        if  (!controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo).hasOwner()){
 //            int rent=controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo).getRent()*rentMultiplier;
 //        }
-        controller.moveToField(locationToMoveTo,true);
+        controller.getCurrentPlayer().moveToField(locationToMoveTo,true);
     }
 }
