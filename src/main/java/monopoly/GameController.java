@@ -7,6 +7,7 @@ import monopoly.dice.Dice;
 import monopoly.dice.DiceResult;
 import monopoly.field.Field;
 import monopoly.field.Property;
+import monopoly.game.MoveResult;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,17 +22,15 @@ public class GameController {
     private int currentRollCount = 0;
     private DiceResult currentDiceResult;
 
-    public GameController(){
+    public GameController(List<String> playerNames){
         this.board = new Board();
+        this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
         this.decks = new Decks();
     }
 
-    public void setPlayers(List<String> playerNames){
-        this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
-    }
-
-    public Field nextMove(){
+    public MoveResult nextMove(){
         Field result;
+        Player currentPlayer = getCurrentPlayer();
 
         currentDiceResult = Dice.roll2Dice();
         currentRollCount++;
@@ -64,7 +63,7 @@ public class GameController {
             }
         }
 
-        return result;
+        return new MoveResult(result, currentPlayer, currentDiceResult);
     }
 
     public List<Player> getPlayers(){
