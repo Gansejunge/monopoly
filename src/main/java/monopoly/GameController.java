@@ -21,10 +21,13 @@ public class GameController {
     private int currentRollCount = 0;
     private DiceResult currentDiceResult;
 
-    public GameController(List<String> playerNames){
+    public GameController(){
         this.board = new Board();
-        this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
         this.decks = new Decks();
+    }
+
+    public void setPlayers(List<String> playerNames){
+        this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
     }
 
     public Field nextMove(){
