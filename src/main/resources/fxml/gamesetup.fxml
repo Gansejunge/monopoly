@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1024.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="monopoly.gui.GameSetup">
+   <children>
+      <BorderPane prefHeight="800.0" prefWidth="1024.0">
+         <center>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                     <children>
+                        <Label text="Player 1" textFill="WHITE">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="playerOneTextField" />
+                        <ColorPicker fx:id="playerOneColour"/>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                     <children>
+                        <Label text="Player 2" textFill="WHITE">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="playerTwoTextField" />
+                        <ColorPicker fx:id="playerTwoColour">
+                           <value>
+                              <Color red="0.060445092618465424" green="0.8026315569877625" blue="0.0074317739345133305" />
+                           </value>
+                        </ColorPicker>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                     <children>
+                        <Label text="Player 3" textFill="WHITE">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="playerThreeTextField"/>
+                        <ColorPicker fx:id="playerThreeColour">
+                           <value>
+                              <Color red="0.11797940731048584" green="0.05573830381035805" blue="0.8026315569877625" />
+                           </value>
+                        </ColorPicker>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+                     <children>
+                        <Label text="Player 4" textFill="WHITE">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="playerFourTextField"/>
+                        <ColorPicker fx:id="playerFourColour">
+                           <value>
+                              <Color red="0.75" green="0.0347222238779068" blue="0.7380787134170532" />
+                           </value>
+                        </ColorPicker>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+         <padding>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+         </padding>
+         <bottom>
+            <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <buttons>
+                <Button fx:id="startButton" mnemonicParsing="false" text="Start Game" />
+              </buttons>
+            </ButtonBar>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>
