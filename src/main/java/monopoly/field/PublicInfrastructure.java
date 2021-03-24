@@ -3,8 +3,8 @@ package monopoly.field;
 import java.util.List;
 
 public class PublicInfrastructure extends Property{
-    public PublicInfrastructure(String name){
-        super(name);
+    public PublicInfrastructure(String name, PropertyGroup group){
+        super(name, group);
     }
 
     public int getRent(int diceValue) {
