@@ -5,9 +5,9 @@ public class PropertyGroup {
     private String color;
     private Property [] properties;
 
-    public PropertyGroup(){
-        this.name = "";
-        this.color = "#f00";
+    public PropertyGroup(String name, String color){
+        this.name = name;
+        this.color = color;
         //todo;
     }
 

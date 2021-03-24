@@ -5,12 +5,14 @@ import monopoly.field.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Board {
     private List<Field> fields;
-
+    private PropertyGroup propertyGroup;
     public Board(){
         fields = new ArrayList<>();
         initBoard();
+        ;
     }
 
     public List<Field> getAllFields(){
@@ -25,45 +27,53 @@ public class Board {
 
     private void initBoard(){
         fields.add(new Go());
-        fields.add(new Estate("Badstraße", "brown", new int[]{9999}));
+        propertyGroup = new PropertyGroup("brown","#A52A2A");
+        fields.add(new Estate("Badstraße", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo Gemeinschaftsfeld
-        fields.add(new Estate("Turmstraße", "brown", new int[]{9999}));
+        fields.add(new Estate("Turmstraße", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo Einkommenssteuer
         fields.add(new Trainstation("Südbahnhof"));
-        fields.add(new Estate("Chaussestrasse", "lightblue", new int[]{9999}));
+        propertyGroup = new PropertyGroup("lightblue","#00FFFF");
+        fields.add(new Estate("Chaussestrasse", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo Ereigniskarte
-        fields.add(new Estate("Elisenstraße", "lightblue", new int[]{9999}));
-        fields.add(new Estate("Poststraße", "lightblue", new int[]{9999}));
+        fields.add(new Estate("Elisenstraße", propertyGroup, new int[]{9999}));
+        fields.add(new Estate("Poststraße", propertyGroup, new int[]{9999}));
         fields.add(new Prison());
-        fields.add(new Estate("Seestraße", "purple", new int[]{9999}));
+        propertyGroup = new PropertyGroup("purple","#8904B1");
+        fields.add(new Estate("Seestraße", propertyGroup, new int[]{9999}));
         fields.add(new PublicInfrastructure("Elektrizitätswerk"));
-        fields.add(new Estate("Hafenstraße", "purple", new int[]{9999}));
-        fields.add(new Estate("Neue Straße", "purple", new int[]{9999}));
+        fields.add(new Estate("Hafenstraße", propertyGroup, new int[]{9999}));
+        fields.add(new Estate("Neue Straße", propertyGroup, new int[]{9999}));
         fields.add(new Trainstation("Westbahnhof"));
-        fields.add(new Estate("Münchener Straße", "orange", new int[]{9999}));
+        propertyGroup = new PropertyGroup("orange","#FF8000");
+        fields.add(new Estate("Münchener Straße", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo Gemeinschaftsfeld
-        fields.add(new Estate("Wiener Straße", "orange", new int[]{9999}));
-        fields.add(new Estate("Berliner Straße", "orange", new int[]{9999}));
+        fields.add(new Estate("Wiener Straße", propertyGroup, new int[]{9999}));
+        fields.add(new Estate("Berliner Straße", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo frei parken
-        fields.add(new Estate("Theaterstraße", "red", new int[]{9999}));
+        propertyGroup = new PropertyGroup("red","#DF0101");
+        fields.add(new Estate("Theaterstraße", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo Ereigniskarte
-        fields.add(new Estate("Museumstraße", "red", new int[]{9999}));
-        fields.add(new Estate("Opernplatzstraße", "red", new int[]{9999}));
+        fields.add(new Estate("Museumstraße", propertyGroup, new int[]{9999}));
+        fields.add(new Estate("Opernplatzstraße", propertyGroup, new int[]{9999}));
         fields.add(new Trainstation("Nordbahnhof"));
-        fields.add(new Estate("Lessingstraße", "yellow", new int[]{9999}));
-        fields.add(new Estate("Schillerstraße", "yellow", new int[]{9999}));
+        propertyGroup = new PropertyGroup("yellow","#FFFF00");
+        fields.add(new Estate("Lessingstraße", propertyGroup, new int[]{9999}));
+        fields.add(new Estate("Schillerstraße", propertyGroup, new int[]{9999}));
         fields.add(new PublicInfrastructure("Wasserwerk"));
-        fields.add(new Estate("Goethestraße", "yellow", new int[]{9999}));
+        fields.add(new Estate("Goethestraße", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo Gehen Sie in das Gefängnis
-        fields.add(new Estate("Rathausplatz", "green", new int[]{9999}));
-        fields.add(new Estate("Hauptstraße", "green", new int[]{9999}));
+        propertyGroup = new PropertyGroup("green","#04B404");
+        fields.add(new Estate("Rathausplatz", propertyGroup, new int[]{9999}));
+        fields.add(new Estate("Hauptstraße", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo Gemeinschaftsfeld
-        fields.add(new Estate("Bahnhofsstraße", "green", new int[]{9999}));
+        fields.add(new Estate("Bahnhofsstraße", propertyGroup, new int[]{9999}));
         fields.add(new Trainstation("Hauptbahnhof"));
         fields.add(new ActionField()); //todo Ereigniskarte
-        fields.add(new Estate("Parkstraße", "blue", new int[]{9999}));
+        propertyGroup = new PropertyGroup("blue","#0101DF");
+        fields.add(new Estate("Parkstraße", propertyGroup, new int[]{9999}));
         fields.add(new ActionField()); //todo Zusatzsteuer
-        fields.add(new Estate("Schlossallee", "blue", new int[]{9999}));
+        fields.add(new Estate("Schlossallee", propertyGroup, new int[]{9999}));
     }
 
     public Field getFieldAtIndex(int index){

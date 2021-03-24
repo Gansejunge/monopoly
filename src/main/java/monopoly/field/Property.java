@@ -7,10 +7,10 @@ public abstract class Property extends Field {
     protected Player owner;
     protected PropertyGroup group;
 
-    public Property(String name){
+    public Property(String name, PropertyGroup group){
         super(name);
 
-        group = new PropertyGroup(); //todo
+        this.group = group;
     }
 
     public Player getOwner() {
