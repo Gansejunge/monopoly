@@ -7,8 +7,10 @@ public abstract class Property extends Field {
     protected Player owner;
     protected PropertyGroup group;
 
-    public Property(String name){
+    public Property(String name, PropertyGroup group){
         super(name);
+
+        this.group = group;
     }
 
     public Player getOwner() {
@@ -29,5 +31,9 @@ public abstract class Property extends Field {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public PropertyGroup getGroup() {
+        return group;
     }
 }
