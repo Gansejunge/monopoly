@@ -1,13 +1,10 @@
 package monopoly.gui;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
 import java.util.List;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -59,7 +56,7 @@ public class GameWindow extends Application{
     }
 
     public void showGameBoard(){
-        GameWindow2 gameWindow2 = new GameWindow2(this.gameController);
+        MainView gameWindow2 = new MainView(this.gameController);
         this.stage.setScene(gameWindow2.getScene());
     }
 

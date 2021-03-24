@@ -19,7 +19,7 @@ import monopoly.game.MoveResult;
 import java.net.URL;
 import java.util.*;
 
-public class GameWindow2 implements Initializable {
+public class MainView implements Initializable {
     private GameController controller;
     private Scene scene;
     private static final int FIELD_WIDTH = 48;
@@ -29,7 +29,7 @@ public class GameWindow2 implements Initializable {
     private static final String[] players = {"Florian", "Tobias", "Dennis"};
     private final Map<String, Rectangle> playerCharacters = new HashMap<>();
 
-    public GameWindow2(GameController controller) {
+    public MainView(GameController controller) {
         this.controller = controller;
         //controller = new GameController(List.of(players));
         Random rnd = new Random();
