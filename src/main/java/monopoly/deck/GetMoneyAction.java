@@ -9,6 +9,6 @@ public class GetMoneyAction implements Action{
     }
     @Override
     public void perfom(GameController controller) {
-        controller.transferMoneyToOrFromBank(this.amountOfMoney);
+        controller.getCurrentPlayer().addMoney(this.amountOfMoney);
     }
 }
