@@ -1,7 +1,5 @@
 package monopoly;
 
-import monopoly.field.Field;
-
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -19,7 +17,6 @@ public class Monopoly {
         }
 
         GameController controller = new GameController(Arrays.asList(playerNames));
-
         while(true){
             System.out.println("Würfeln? (j/n)");
             String result = inputScanner.next();
@@ -27,13 +24,14 @@ public class Monopoly {
                 break;
             } else if("j".equals(result.strip())){
                 Player currentPlayer = controller.getCurrentPlayer();
-                Field resultField = controller.nextMove();
-
-                System.out.println("Du bist auf dem Feld " + resultField.getName() + " gelandet");
-
-                if(currentPlayer.equals(controller.getCurrentPlayer())){
-                    System.out.println("Du darfst nochmal.");
-                }
+                // todo wegwerfen
+//                //Field resultField = controller.nextMove();
+//
+//                System.out.println("Du bist auf dem Feld " + resultField.getName() + " gelandet");
+//
+//                if(currentPlayer.equals(controller.getCurrentPlayer())){
+//                    System.out.println("Du darfst nochmal.");
+//                }
             }
         }
     }

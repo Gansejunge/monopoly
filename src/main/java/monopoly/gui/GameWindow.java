@@ -1,59 +1,64 @@
 package monopoly.gui;
 
 import java.io.FileNotFoundException;
+import java.util.List;
+
 import javafx.application.Application;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
-import monopoly.Player;
+import monopoly.GameController;
 
 public class GameWindow extends Application{
+    public Stage stage;
+
+    GameController gameController;
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        stage.setTitle("Monopoly");
-
-        int width = 1200;
-        int height = 900;
-
-        int bottomPaneHeight = 100;
-        int boardHeight = height - bottomPaneHeight;
-        int boardWidth = 800;
-        int sidebarHeight = height - bottomPaneHeight;
-        int sidebarWidth = 400;
-        // main layout
-        BorderPane mainLayout = new BorderPane();
-
-        /////////////////////////
-        // left side
-        ////////////////////////
-        Board board = new Board(boardWidth, boardHeight);
-        mainLayout.setLeft(board.getNode());
-
-        /////////////////////////
-        // right side
-        ////////////////////////
-        String[] players = {"Florian", "Dennis", "Tobias"};
-        PlayerSidebar playerSidebar = new PlayerSidebar(sidebarWidth, sidebarHeight, players);
-
-
-        mainLayout.setRight(playerSidebar.getNode());
-
-        /////////////////////////
-        // bottom pane
-        ////////////////////////
-        VBox bottomPane = new VBox();
-        bottomPane.setPrefHeight(bottomPaneHeight);
-        mainLayout.setBottom(bottomPane);
-        Scene scene = new Scene(mainLayout, width, height);
-        stage.setScene(scene);
-        stage.show();
+        this.stage = stage;
+        this.showMainMenu();
     }
 
+    public void initGameController(List<String> playerNames){
+        this.gameController = new GameController(playerNames);
+    }
 
+    private void showMainMenu(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/mainmenu.fxml"));
+            Parent root = loader.load();
+            MainMenu mainMenuController = loader.getController();
+            mainMenuController.setGameWindow(this);
+            Scene scene = new Scene(root);
+            this.stage.setScene(scene);
+            this.stage.show();
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void showGameSetup(){
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/gamesetup.fxml"));
+            Parent root = loader.load();
+            GameSetup gameSetupController = loader.getController();
+            gameSetupController.setGameWindow(this);
+            Scene scene = new Scene(root);
+            this.stage.setScene(scene);
+            this.stage.show();
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void showGameBoard(){
+        MainView gameWindow2 = new MainView(this.gameController);
+        this.stage.setScene(gameWindow2.getScene());
+    }
 
     public static void main(String[] args) {
         launch();

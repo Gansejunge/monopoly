@@ -6,6 +6,7 @@ import monopoly.dice.Dice;
 import monopoly.dice.DiceResult;
 import monopoly.field.Field;
 import monopoly.field.Property;
+import monopoly.game.MoveResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,9 @@ public class GameController {
         this.decks = new Decks();
     }
 
-    public Field nextMove(){
+    public MoveResult nextMove(){
         Field result;
+        Player currentPlayer = getCurrentPlayer();
 
         currentDiceResult = Dice.roll2Dice();
         currentRollCount++;
@@ -61,7 +63,7 @@ public class GameController {
             }
         }
 
-        return result;
+        return new MoveResult(result, currentPlayer, currentDiceResult);
     }
 
     public List<Player> getPlayers(){
