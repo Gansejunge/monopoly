@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 
 public class GameSetup implements Initializable {
     GameWindow gameWindow;
-    GameController gameController;
 
     @FXML
     private Button startButton;
@@ -45,15 +44,11 @@ public class GameSetup implements Initializable {
         players[1] = playerTwoTextField.getText();
         players[2] = playerThreeTextField.getText();
         players[3] = playerFourTextField.getText();
-        this.gameController.setPlayers(Arrays.asList(players));
+        this.gameWindow.initGameController(Arrays.asList(players));
         this.gameWindow.showGameBoard();
     }
 
     public void setGameWindow(GameWindow gameWindow){
         this.gameWindow = gameWindow;
-    }
-
-    public void setGameController(GameController gameController){
-        this.gameController = gameController;
     }
 }

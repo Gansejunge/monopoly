@@ -1,6 +1,7 @@
 package monopoly.gui;
 
 import javafx.application.Application;
+import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -11,17 +12,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import monopoly.GameController;
+import monopoly.Player;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.net.URL;
+import java.util.*;
 
-public class GameWindow2 extends Application {
+public class GameWindow2 implements Initializable {
     private GameController controller;
-
+    private Scene scene;
     private static final int FIELD_WIDTH = 48;
     private static final int FIELD_HEIGHT = 96;
     private static final int FIELD_HEADER_HEIGHT = 16;
@@ -29,16 +29,65 @@ public class GameWindow2 extends Application {
     private static final String[] players = {"Florian", "Tobias", "Dennis"};
     private final Map<String, Rectangle> playerCharacters = new HashMap<>();
 
-    public GameWindow2() {
-        controller = new GameController(List.of(players));
+    public GameWindow2(GameController controller) {
+        this.controller = controller;
+        //controller = new GameController(List.of(players));
         Random rnd = new Random();
 
-        for (String name : players) {
+        for (Player player : controller.getPlayers()) {
             Rectangle r = new Rectangle(16, 16);
             r.setFill(new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1.0));
             setR(FIELD_WIDTH * 11, FIELD_WIDTH * 11, r);
-            playerCharacters.put(name, r);
+            playerCharacters.put(player.getName(), r);
         }
+
+        Button button = new Button("Würfeln");
+        button.setOnMouseClicked((e) -> {
+            MoveResult move = controller.nextMove();
+            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
+            System.out.println(move.player.getName() + ": " + move.player.getPosition());
+        });
+
+        int width = 1200;
+        int height = 900;
+
+        int bottomPaneHeight = 100;
+        int boardHeight = height - bottomPaneHeight;
+        int boardWidth = 800;
+        int sidebarHeight = height - bottomPaneHeight;
+        int sidebarWidth = 400;
+        // main layout
+        BorderPane mainLayout = new BorderPane();
+
+        /////////////////////////
+        // left side
+        ////////////////////////
+        Board board = new Board(boardWidth, boardHeight);
+        mainLayout.setLeft(board.getNode());
+
+        Group boardGroup = drawBoard();
+        for (var character : playerCharacters.values()) {
+            boardGroup.getChildren().add(character);
+        }
+        board.getNode().getChildren().add(boardGroup);
+
+        /////////////////////////
+        // right side
+        ////////////////////////
+        PlayerSidebar playerSidebar = new PlayerSidebar(sidebarWidth, sidebarHeight, controller.getPlayers());
+
+
+        mainLayout.setRight(playerSidebar.getNode());
+
+        /////////////////////////
+        // bottom pane
+        ////////////////////////
+        VBox bottomPane = new VBox();
+        bottomPane.setPrefHeight(bottomPaneHeight);
+        bottomPane.getChildren().add(button);
+
+        mainLayout.setBottom(bottomPane);
+        this.scene = new Scene(mainLayout, width, height);
     }
 
     private Group drawBoard() {
@@ -141,57 +190,11 @@ public class GameWindow2 extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
-        stage.setTitle("Monopoly");
+    public void initialize(URL url, ResourceBundle rb) {
 
-        Button button = new Button("Würfeln");
-        button.setOnMouseClicked((e) -> {
-            MoveResult move = controller.nextMove();
-            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
-            System.out.println(move.player.getName() + ": " + move.player.getPosition());
-        });
+    }
 
-        int width = 1200;
-        int height = 900;
-
-        int bottomPaneHeight = 100;
-        int boardHeight = height - bottomPaneHeight;
-        int boardWidth = 800;
-        int sidebarHeight = height - bottomPaneHeight;
-        int sidebarWidth = 400;
-        // main layout
-        BorderPane mainLayout = new BorderPane();
-
-        /////////////////////////
-        // left side
-        ////////////////////////
-        Board board = new Board(boardWidth, boardHeight);
-        mainLayout.setLeft(board.getNode());
-
-        Group boardGroup = drawBoard();
-        for (var character : playerCharacters.values()) {
-            boardGroup.getChildren().add(character);
-        }
-        board.getNode().getChildren().add(boardGroup);
-
-        /////////////////////////
-        // right side
-        ////////////////////////
-        PlayerSidebar playerSidebar = new PlayerSidebar(sidebarWidth, sidebarHeight, players);
-
-
-        mainLayout.setRight(playerSidebar.getNode());
-
-        /////////////////////////
-        // bottom pane
-        ////////////////////////
-        VBox bottomPane = new VBox();
-        bottomPane.setPrefHeight(bottomPaneHeight);
-        bottomPane.getChildren().add(button);
-
-        mainLayout.setBottom(bottomPane);
-        Scene scene = new Scene(mainLayout, width, height);
-        stage.setScene(scene);
-        stage.show();
+    public Scene getScene(){
+        return this.scene;
     }
 }

@@ -3,6 +3,7 @@ package monopoly.gui;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,8 +21,11 @@ public class GameWindow extends Application{
     @Override
     public void start(Stage stage) throws FileNotFoundException {
         this.stage = stage;
-        this.gameController = new GameController();
         this.showMainMenu();
+    }
+
+    public void initGameController(List<String> playerNames){
+        this.gameController = new GameController(playerNames);
     }
 
     private void showMainMenu(){
@@ -55,7 +59,8 @@ public class GameWindow extends Application{
     }
 
     public void showGameBoard(){
-
+        GameWindow2 gameWindow2 = new GameWindow2(this.gameController);
+        this.stage.setScene(gameWindow2.getScene());
     }
 
     public static void main(String[] args) {

@@ -16,8 +16,7 @@ public class Monopoly {
             playerNames[i] = inputScanner.next();
         }
 
-        GameController controller = new GameController();
-        controller.setPlayers(Arrays.asList(playerNames));
+        GameController controller = new GameController(Arrays.asList(playerNames));
         while(true){
             System.out.println("Würfeln? (j/n)");
             String result = inputScanner.next();
