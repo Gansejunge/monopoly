@@ -19,21 +19,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class GameWindow extends Application{
+public class GameWindow extends Application {
     private GameController controller;
 
     private static final int FIELD_WIDTH = 48;
     private static final int FIELD_HEIGHT = 96;
     private static final int FIELD_HEADER_HEIGHT = 16;
 
-    private static final String[] players ={"Florian", "Tobias", "Dennis"};
+    private static final String[] players = {"Florian", "Tobias", "Dennis"};
     private final Map<String, Rectangle> playerCharacters = new HashMap<>();
 
-    public GameWindow(){
+    public GameWindow() {
         controller = new GameController(List.of(players));
         Random rnd = new Random();
 
-        for(String name : players){
+        for (String name : players) {
             Rectangle r = new Rectangle(16, 16);
             r.setFill(new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1.0));
             setR(FIELD_WIDTH * 11, FIELD_WIDTH * 11, r);
@@ -41,7 +41,7 @@ public class GameWindow extends Application{
         }
     }
 
-    private Group drawBoard(){
+    private Group drawBoard() {
         Group board = new Group();
         Rectangle r = new Rectangle(FIELD_WIDTH * 11, FIELD_WIDTH * 11);
         r.setFill(Color.DARKGRAY);
@@ -49,53 +49,93 @@ public class GameWindow extends Application{
         r.setStroke(Color.BLACK);
 
         var fields = controller.getMonopolyBoard().getAllFields();
-        for(int i = 0; i < fields.size(); ++i){
-            Group fieldGroup = new Group();
-            Rectangle field = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
-            if(i % 10 == 0){
-                field.setWidth(field.getHeight());
+
+        for (int i = 0; i < 3; ++i) {
+            Group row = new Group();
+
+            for (int x = 0; x < 10; ++x) {
+                Group fieldGroup = new Group();
+                Rectangle field = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
+                if (x == 0) {
+                    field.setWidth(FIELD_HEIGHT);
+                }
+                setCharPosition(x % 10, fieldGroup);
+
+                field.setFill(Color.WHITE);
+                field.setStrokeWidth(1.0);
+                field.setStroke(Color.BLACK);
+                fieldGroup.getChildren().add(field);
+
+
+                if (fields.get(i * 10 + x) instanceof Property) {
+                    Property p = (Property) fields.get(i * 10 + x);
+                    Rectangle header = new Rectangle(FIELD_WIDTH, FIELD_HEADER_HEIGHT);
+                    header.setFill(Color.web(p.getGroup().getColor()));
+                    header.setStrokeWidth(1.0);
+                    header.setStroke(Color.BLACK);
+
+                    fieldGroup.getChildren().add(header);
+                }
+
+                row.getChildren().add(fieldGroup);
             }
 
-            field.setFill(Color.WHITE);
-            field.setStrokeWidth(1.0);
-            field.setStroke(Color.BLACK);
-            fieldGroup.getChildren().add(field);
-
-            setCharPosition(i, fieldGroup);
-
-            fieldGroup.setRotate(90 * Math.floorDiv(i, 10));//todo
-
-            if(fields.get(i) instanceof Property){
-                Property p = (Property) fields.get(i);
-                Rectangle header = new Rectangle(FIELD_WIDTH, FIELD_HEADER_HEIGHT);
-                header.setFill(Color.web(p.getGroup().getColor()));
-                header.setStrokeWidth(1.0);
-                header.setStroke(Color.BLACK);
-
-                fieldGroup.getChildren().add(header);
+            row.setRotate(i * 90);
+            if (i == 1) {
+                row.setTranslateX(0.5 * -i * FIELD_WIDTH * 11 - FIELD_WIDTH);
+                row.setTranslateY(0.5 * -i * FIELD_WIDTH * 11 + FIELD_WIDTH);
+            } else if (i == 2) {
+                row.setTranslateX(0 * i * FIELD_WIDTH * 11);
+                row.setTranslateY(0.5 * -i * FIELD_WIDTH * 11);
+            } else if (i == 3) {
+                row.setTranslateX(i * FIELD_WIDTH * 11);
+                row.setTranslateY(i * FIELD_WIDTH * 11);
             }
-
-            board.getChildren().add(fieldGroup);
+            board.getChildren().add(row);
         }
+
+//        for(int i = 0; i < fields.size(); ++i){
+//            Group fieldGroup = new Group();
+//            Rectangle field = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
+//            if(i % 10 == 0){
+//                field.setWidth(field.getHeight());
+//            }
+//
+//            setCharPosition(i, fieldGroup);
+//
+//            fieldGroup.setRotate(90 * Math.floorDiv(i, 10));//todo
+//
+//            if(fields.get(i) instanceof Property){
+//                Property p = (Property) fields.get(i);
+//                Rectangle header = new Rectangle(FIELD_WIDTH, FIELD_HEADER_HEIGHT);
+//                header.setFill(Color.web(p.getGroup().getColor()));
+//                header.setStrokeWidth(1.0);
+//                header.setStroke(Color.BLACK);
+//
+//                fieldGroup.getChildren().add(header);
+//            }
+//
+//            board.getChildren().add(fieldGroup);
+//        }
 
         return board;
     }
 
-    private void setCharPosition(int fieldIndex, Node r){
+    private void setCharPosition(int fieldIndex, Node r) {
         final int TOTAL = 10 * FIELD_WIDTH;
 
-        if(fieldIndex <= 10){
+        if (fieldIndex <= 10) {
             setR(TOTAL - (fieldIndex * FIELD_WIDTH), TOTAL, r);
-        } else if(fieldIndex <= 20){
+        } else if (fieldIndex <= 20) {
             setR(0, TOTAL - ((fieldIndex - 10) * FIELD_WIDTH), r);
-        } else if(fieldIndex <= 30){
+        } else if (fieldIndex <= 30) {
             setR((fieldIndex - 20) * FIELD_WIDTH, 0, r);
-        } else{
+        } else {
             setR(TOTAL, ((fieldIndex - 30) * FIELD_WIDTH), r);
         }
     }
 
-    private void setR(double x, double y, Node r){
+    private void setR(double x, double y, Node r) {
         r.setTranslateX(x);
         r.setTranslateY(y);
     }
@@ -129,7 +169,7 @@ public class GameWindow extends Application{
         mainLayout.setLeft(board.getNode());
 
         Group boardGroup = drawBoard();
-        for(var character : playerCharacters.values()){
+        for (var character : playerCharacters.values()) {
             boardGroup.getChildren().add(character);
         }
         board.getNode().getChildren().add(boardGroup);
@@ -153,11 +193,5 @@ public class GameWindow extends Application{
         Scene scene = new Scene(mainLayout, width, height);
         stage.setScene(scene);
         stage.show();
-    }
-
-
-
-    public static void main(String[] args) {
-        launch();
     }
 }
