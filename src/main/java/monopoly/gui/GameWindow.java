@@ -58,12 +58,6 @@ public class GameWindow extends Application{
 
     }
 
-    private static File[] getResourceFolderFiles (String folder) {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        URL url = loader.getResource(folder);
-        String path = url.getPath();
-        return new File(path).listFiles();
-    }
     public static void main(String[] args) {
         launch();
     }
