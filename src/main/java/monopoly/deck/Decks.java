@@ -29,7 +29,7 @@ public class Decks {
         actionCards.add(new Card("Rücken Sie vor bis zum Opernplatz. Wenn Sie über Los kommen, ziehen Sie € 200 ein.", new MoveToLocation(24, true), CardType.Ereigniskarte));
         actionCards.add(new Card("Rücken Sie vor bis zum nächsten Versorgungswerk. Werfen Sie die Würfel und zahlen dem Eigentümer den zehnfachen\n" +
                 "Betrag Ihres Wurfergebnisses. Wenn das Werk noch niemandem gehört, können Sie es von der Bank kaufen.", new MoveToLocationWhilePossiblyPayingHigherRent(new int[]{12, 28}, 10), CardType.Ereigniskarte));
-        actionCards.add(new Card("Gehen Sie in das Gefängnis. Begeben Sie sich direkt dorthin. Gehen Sie nicht über Los. Ziehen Sie nicht € 200 ein.", new MoveToLocation(10, false), CardType.Ereigniskarte));
+        actionCards.add(new Card("Gehen Sie in das Gefängnis. Begeben Sie sich direkt dorthin. Gehen Sie nicht über Los. Ziehen Sie nicht € 200 ein.", new GoToPrison(), CardType.Ereigniskarte));
         actionCards.add(new Card("Rücken Sie vor bis auf Los. (Ziehe € 200 ein).", new MoveToLocation(0, true), CardType.Ereigniskarte));
         actionCards.add(new Card("Die Bank zahlt Ihnen eine Dividende von € 50.", new GetMoneyAction(50), CardType.Ereigniskarte));
         actionCards.add(new Card("Sie lassen Ihre Häuser renovieren. Zahlen Sie: € 25 pro Haus, € 100 pro Hotel.", new MaintainOwnedEstate(25, 100), CardType.Ereigniskarte));
@@ -55,7 +55,7 @@ public class Decks {
         communityCards.add(new Card("Arzt-Kosten. Zahlen Sie € 50", new GetMoneyAction(-50), CardType.Gemeinschaftskarte));
         communityCards.add(new Card("Einkommenssteuerrückerstattung. Sie erhalten € 20.", new GetMoneyAction(20), CardType.Gemeinschaftskarte));
         communityCards.add(new Card("Krankenhausgebühren. Zahlen Sie € 100", new GetMoneyAction(-100), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Gehen Sie in das Gefängnis. Begeben Sie sich direkt dorthin. Gehen Sie nicht über Los. Ziehen Sie nicht € 200 ein.", new MoveToLocation(10, false), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Gehen Sie in das Gefängnis. Begeben Sie sich direkt dorthin. Gehen Sie nicht über Los. Ziehen Sie nicht € 200 ein.", new GoToPrison(), CardType.Gemeinschaftskarte));
         communityCards.add(new Card("Sie erhalten auf Vorzugs-Aktien 7% Dividende: € 25.", new GetMoneyAction(25), CardType.Gemeinschaftskarte));
         communityCards.add(new Card("Sie haben Geburtstag. Jeder Spieler schenkt Ihnen € 10", new RedistributeMoneyToOrFromCurrentPlayer(10), CardType.Gemeinschaftskarte));
         communityCards.add(new Card("Sie erben € 100", new GetMoneyAction(100), CardType.Gemeinschaftskarte));

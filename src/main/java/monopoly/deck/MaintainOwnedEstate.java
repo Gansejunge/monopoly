@@ -33,6 +33,6 @@ public class MaintainOwnedEstate implements Action {
         }
         int rentDue = (amountOfPlayerOwnedHouses * houseMultiplier)
                 + (amountOfPlayerOwnedHotels * hotelMultiplier);
-        controller.transferMoneyToOrFromBank(-1 * rentDue);
+        controller.getCurrentPlayer().addMoney(-1 * rentDue);
     }
 }

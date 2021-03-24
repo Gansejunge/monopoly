@@ -81,9 +81,4 @@ public class Player {
         this.setPosition(location);
         if(getMoneyFromStart) this.addMoney(1000);
     }
-
-    public int getLocation(){
-        //todo
-        return 0;
-    }
 }
