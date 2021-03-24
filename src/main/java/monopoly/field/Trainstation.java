@@ -1,8 +1,8 @@
 package monopoly.field;
 
 public class Trainstation extends Property {
-    public Trainstation(String name, PropertyGroup group){
-        super(name, group);
+    public Trainstation(String name, PropertyGroup group, int price){
+        super(name, group, price);
     }
 
     public int getRent() {
