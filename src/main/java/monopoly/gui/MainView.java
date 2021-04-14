@@ -30,13 +30,13 @@ public class MainView implements Initializable {
     private static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
     private static final int FIELD_HEADER_HEIGHT = 28;
 
-    private final Map<Player, Rectangle> playerCharacters = new HashMap<>();
+    private final Map<Integer, Rectangle> playerCharacters = new HashMap<>();
     private DiceView diceView;
 
     private GUIListener listener = new GUIListener() {
         @Override
         public void onMove(MoveResult move) {
-            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player));
+            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getId()));
         }
 
         @Override
@@ -57,7 +57,7 @@ public class MainView implements Initializable {
             Rectangle r = new Rectangle(16, 16);
             r.setFill(new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1.0));
             setR(FIELD_WIDTH * 11, FIELD_WIDTH * 11, r);
-            playerCharacters.put(player, r);
+            playerCharacters.put(player.getId(), r);
         }
 
         int width = 1200;

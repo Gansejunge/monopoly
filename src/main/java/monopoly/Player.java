@@ -10,7 +10,10 @@ import java.util.Objects;
 public class Player {
     private String name;
 
+    private static int counter = 0;
+
     private int money = 0;
+    private int id;
     private int position = 0;
     private boolean isInPrison;
     private int turnsInPrison;
@@ -19,6 +22,8 @@ public class Player {
 
     public Player(String name){
         this.name = name;
+        this.id = counter;
+        ++counter;
     }
 
     public void addTurnInPrison(){
@@ -93,5 +98,9 @@ public class Player {
     @Override
     public int hashCode() {
         return Objects.hash(name, money, position, isInPrison, turnsInPrison, properties, Card);
+    }
+
+    public int getId() {
+        return id;
     }
 }
