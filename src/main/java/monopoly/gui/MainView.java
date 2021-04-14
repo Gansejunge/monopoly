@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import monopoly.GameController;
 import monopoly.Player;
+import monopoly.deck.Card;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
@@ -29,14 +30,18 @@ public class MainView implements Initializable {
     private static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
     private static final int FIELD_HEADER_HEIGHT = 28;
 
-    private final Map<String, Rectangle> playerCharacters = new HashMap<>();
+    private final Map<Player, Rectangle> playerCharacters = new HashMap<>();
     private DiceView diceView;
 
     private GUIListener listener = new GUIListener() {
         @Override
         public void onMove(MoveResult move) {
-            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
-            //todo action
+            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player));
+        }
+
+        @Override
+        public void onDrawCard(Card card) {
+            System.out.println(card.getText());
         }
     };
 
@@ -52,7 +57,7 @@ public class MainView implements Initializable {
             Rectangle r = new Rectangle(16, 16);
             r.setFill(new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1.0));
             setR(FIELD_WIDTH * 11, FIELD_WIDTH * 11, r);
-            playerCharacters.put(player.getName(), r);
+            playerCharacters.put(player, r);
         }
 
         int width = 1200;

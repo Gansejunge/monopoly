@@ -5,7 +5,7 @@ import monopoly.field.Property;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Objects;
 
 public class Player {
     private String name;
@@ -80,5 +80,18 @@ public class Player {
     public void moveToField(int location,boolean getMoneyFromStart){
         this.setPosition(location);
         if(getMoneyFromStart) this.addMoney(1000);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return money == player.money && position == player.position && isInPrison == player.isInPrison && turnsInPrison == player.turnsInPrison && name.equals(player.name) && properties.equals(player.properties) && Card.equals(player.Card);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, money, position, isInPrison, turnsInPrison, properties, Card);
     }
 }
