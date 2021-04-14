@@ -1,6 +1,7 @@
 package monopoly.dice;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.IntSupplier;
 
@@ -20,5 +21,9 @@ public class DiceResult {
 
     public int getTotal(){
         return result.stream().mapToInt(i -> i).sum();
+    }
+
+    public List<Integer> getResult(){
+        return Collections.unmodifiableList(result);
     }
 }

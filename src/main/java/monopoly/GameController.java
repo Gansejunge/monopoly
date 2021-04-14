@@ -8,6 +8,7 @@ import monopoly.dice.DiceResult;
 import monopoly.field.Field;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
+import monopoly.gui.GUIListener;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,7 +21,8 @@ public class GameController {
     private int currentPlayer = 0;
     private Decks decks;
     private int currentRollCount = 0;
-    private DiceResult currentDiceResult;
+
+    private List<GUIListener> eventListener = new ArrayList<>();
 
     public GameController(List<String> playerNames){
         this.board = new Board();
@@ -28,11 +30,19 @@ public class GameController {
         this.decks = new Decks();
     }
 
+    public void addEventListener(GUIListener listener){
+        this.eventListener.add(listener);
+    }
+
+    public void removeEventListener(GUIListener listener){
+        this.eventListener.remove(listener);
+    }
+
     public MoveResult nextMove(){
         Field result;
         Player currentPlayer = getCurrentPlayer();
 
-        currentDiceResult = Dice.roll2Dice();
+        DiceResult currentDiceResult = Dice.roll2Dice();
         currentRollCount++;
 
         if(getCurrentPlayer().isInPrison()){
@@ -44,7 +54,7 @@ public class GameController {
             } else{
                 result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
                 if(getCurrentPlayer().getTurnsInPrison() == 3) {
-                   result.getFieldAction().perfom(this);
+                   //todo result.getFieldAction().perfom(this);
                 }
             }
 
@@ -53,7 +63,9 @@ public class GameController {
             if(currentRollCount == MOVE_TO_PRISON_ROLL_COUNT && currentDiceResult.isPair()){
                 getCurrentPlayer().setPosition(11); //todo nicht über index?
                 getCurrentPlayer().setInPrison(true);
+
                 result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
+                result.getFieldAction().perfom(this);
             } else{
                 result = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
             }
@@ -63,7 +75,9 @@ public class GameController {
             }
         }
 
-        return new MoveResult(result, currentPlayer, currentDiceResult);
+        MoveResult move = new MoveResult(result, currentPlayer, currentDiceResult);
+        eventListener.forEach(listener -> listener.onMove(move));
+        return move;
     }
 
     public List<Player> getPlayers(){
@@ -76,7 +90,6 @@ public class GameController {
 
     public void nextPlayer(){
         currentRollCount = 0;
-        currentDiceResult = null;
         currentPlayer = (currentPlayer + 1) % players.size();
     }
 
@@ -101,6 +114,7 @@ public class GameController {
 
     public void drawCard(CardType cardType){
         Card card =  this.decks.drawCard(cardType);
+        eventListener.forEach(l -> l.onDrawCard(card));
         card.getAction().perfom(this);
     }
 
