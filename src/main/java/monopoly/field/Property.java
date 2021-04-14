@@ -1,16 +1,18 @@
 package monopoly.field;
 
 import monopoly.Player;
+import monopoly.deck.Action;
 
 public abstract class Property extends Field {
     protected int price;
     protected Player owner;
     protected PropertyGroup group;
 
-    public Property(String name, PropertyGroup group, int price){
+    public Property(String name, PropertyGroup group, int price, Action action){
         super(name);
         this.group = group;
         this.price = price;
+        this.fieldAction = action;
     }
 
     public Player getOwner() {

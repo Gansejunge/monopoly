@@ -1,10 +1,12 @@
 package monopoly.field;
 
+import monopoly.deck.Action;
+
 import java.util.List;
 
 public class PublicInfrastructure extends Property{
-    public PublicInfrastructure(String name, PropertyGroup group, int price){
-        super(name, group, price);
+    public PublicInfrastructure(String name, PropertyGroup group, int price, Action action){
+        super(name, group, price, action);
     }
 
     public int getRent(int diceValue) {
