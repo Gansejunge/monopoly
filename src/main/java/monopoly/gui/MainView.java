@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import monopoly.GameController;
 import monopoly.Player;
+import monopoly.deck.Card;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
@@ -36,7 +37,11 @@ public class MainView implements Initializable {
         @Override
         public void onMove(MoveResult move) {
             setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
-            //todo action
+        }
+
+        @Override
+        public void onDrawCard(Card card) {
+            System.out.println(card.getText());
         }
     };
 

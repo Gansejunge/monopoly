@@ -13,4 +13,8 @@ public class Card {
         return this.action;
     }
     public CardType getCardType(){return this.cardType;}
+
+    public String getText() {
+        return text;
+    }
 }

@@ -54,7 +54,7 @@ public class GameController {
             } else{
                 result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
                 if(getCurrentPlayer().getTurnsInPrison() == 3) {
-                   result.getFieldAction().perfom(this);
+                   //todo result.getFieldAction().perfom(this);
                 }
             }
 
@@ -63,7 +63,9 @@ public class GameController {
             if(currentRollCount == MOVE_TO_PRISON_ROLL_COUNT && currentDiceResult.isPair()){
                 getCurrentPlayer().setPosition(11); //todo nicht über index?
                 getCurrentPlayer().setInPrison(true);
+
                 result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
+                result.getFieldAction().perfom(this);
             } else{
                 result = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
             }
@@ -112,6 +114,7 @@ public class GameController {
 
     public void drawCard(CardType cardType){
         Card card =  this.decks.drawCard(cardType);
+        eventListener.forEach(l -> l.onDrawCard(card));
         card.getAction().perfom(this);
     }
 
