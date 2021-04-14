@@ -2,7 +2,7 @@ package monopoly.deck;
 
 import monopoly.GameController;
 
-public class fieldAction implements Action{
+public class FieldAction implements Action{
     @Override
     public void perfom(GameController controller) {
     }
