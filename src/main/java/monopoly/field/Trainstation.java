@@ -1,8 +1,10 @@
 package monopoly.field;
 
+import monopoly.deck.Action;
+
 public class Trainstation extends Property {
-    public Trainstation(String name, PropertyGroup group, int price){
-        super(name, group, price);
+    public Trainstation(String name, PropertyGroup group, int price, Action action){
+        super(name, group, price, action);
     }
 
     public int getRent() {
