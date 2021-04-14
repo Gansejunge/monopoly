@@ -3,9 +3,8 @@ package monopoly.field;
 import monopoly.deck.Action;
 
 public class ActionField extends Field{
-    Action action;
+    public ActionField(String name, Action action){
+        super(name, action);
 
-    public void ActionField(Action action){
-        this.action = action;
     }
 }
