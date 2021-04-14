@@ -25,11 +25,12 @@ import java.util.ResourceBundle;
 public class MainView implements Initializable {
     private GameController controller;
     private Scene scene;
-    private static final int FIELD_WIDTH = 72;
-    private static final int FIELD_HEIGHT = 144;
-    private static final int FIELD_HEADER_HEIGHT = 32;
+    private static final int FIELD_WIDTH = 66;
+    private static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
+    private static final int FIELD_HEADER_HEIGHT = 28;
 
     private final Map<String, Rectangle> playerCharacters = new HashMap<>();
+    private DiceView diceView = new DiceView();
 
     public MainView(GameController controller) {
         this.controller = controller;
@@ -41,13 +42,6 @@ public class MainView implements Initializable {
             setR(FIELD_WIDTH * 11, FIELD_WIDTH * 11, r);
             playerCharacters.put(player.getName(), r);
         }
-
-        Button button = new Button("Würfeln");
-        button.setOnMouseClicked((e) -> {
-            MoveResult move = controller.nextMove();
-            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
-            System.out.println(move.player.getName() + ": " + move.player.getPosition());
-        });
 
         int width = 1200;
         int height = 900;
@@ -71,6 +65,13 @@ public class MainView implements Initializable {
             boardGroup.getChildren().add(character);
         }
         board.getNode().getChildren().add(boardGroup);
+
+        Button button = new Button("Würfeln");
+        button.setOnMouseClicked((e) -> {
+            MoveResult move = controller.nextMove();
+            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
+            diceView.animDiceRoll(boardGroup, move.roll.getResult());
+        });
 
         /////////////////////////
         // right side
