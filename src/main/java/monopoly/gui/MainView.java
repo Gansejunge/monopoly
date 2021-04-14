@@ -1,6 +1,5 @@
 package monopoly.gui;
 
-import javafx.application.Application;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -10,28 +9,31 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import monopoly.GameController;
 import monopoly.Player;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.ResourceBundle;
 
 public class MainView implements Initializable {
     private GameController controller;
     private Scene scene;
-    private static final int FIELD_WIDTH = 48;
-    private static final int FIELD_HEIGHT = 96;
-    private static final int FIELD_HEADER_HEIGHT = 16;
+    private static final int FIELD_WIDTH = 66;
+    private static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
+    private static final int FIELD_HEADER_HEIGHT = 28;
 
-    private static final String[] players = {"Florian", "Tobias", "Dennis"};
     private final Map<String, Rectangle> playerCharacters = new HashMap<>();
+    private DiceView diceView = new DiceView();
 
     public MainView(GameController controller) {
         this.controller = controller;
-        //controller = new GameController(List.of(players));
         Random rnd = new Random();
 
         for (Player player : controller.getPlayers()) {
@@ -40,13 +42,6 @@ public class MainView implements Initializable {
             setR(FIELD_WIDTH * 11, FIELD_WIDTH * 11, r);
             playerCharacters.put(player.getName(), r);
         }
-
-        Button button = new Button("Würfeln");
-        button.setOnMouseClicked((e) -> {
-            MoveResult move = controller.nextMove();
-            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
-            System.out.println(move.player.getName() + ": " + move.player.getPosition());
-        });
 
         int width = 1200;
         int height = 900;
@@ -70,6 +65,13 @@ public class MainView implements Initializable {
             boardGroup.getChildren().add(character);
         }
         board.getNode().getChildren().add(boardGroup);
+
+        Button button = new Button("Würfeln");
+        button.setOnMouseClicked((e) -> {
+            MoveResult move = controller.nextMove();
+            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
+            diceView.animDiceRoll(boardGroup, move.roll.getResult());
+        });
 
         /////////////////////////
         // right side
@@ -126,6 +128,21 @@ public class MainView implements Initializable {
                     fieldGroup.getChildren().add(header);
                 }
 
+                Text text = new Text();
+                text.setFont(new Font(12));
+                text.setWrappingWidth(FIELD_WIDTH - 6);
+                text.setText(fields.get(i * 10 + x).getName());
+                text.setTranslateX(6);
+                text.setTranslateY(20 + FIELD_HEADER_HEIGHT);
+                fieldGroup.getChildren().add(text);
+
+                if (x == 0) {
+                    text.setRotate(-45);
+                    text.setWrappingWidth(FIELD_HEIGHT);
+                    text.setTranslateX(12);
+                    text.setTranslateY(30 + FIELD_HEADER_HEIGHT);
+                }
+
                 row.getChildren().add(fieldGroup);
             }
 
@@ -142,30 +159,6 @@ public class MainView implements Initializable {
             }
             board.getChildren().add(row);
         }
-
-//        for(int i = 0; i < fields.size(); ++i){
-//            Group fieldGroup = new Group();
-//            Rectangle field = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
-//            if(i % 10 == 0){
-//                field.setWidth(field.getHeight());
-//            }
-//
-//            setCharPosition(i, fieldGroup);
-//
-//            fieldGroup.setRotate(90 * Math.floorDiv(i, 10));//todo
-//
-//            if(fields.get(i) instanceof Property){
-//                Property p = (Property) fields.get(i);
-//                Rectangle header = new Rectangle(FIELD_WIDTH, FIELD_HEADER_HEIGHT);
-//                header.setFill(Color.web(p.getGroup().getColor()));
-//                header.setStrokeWidth(1.0);
-//                header.setStroke(Color.BLACK);
-//
-//                fieldGroup.getChildren().add(header);
-//            }
-//
-//            board.getChildren().add(fieldGroup);
-//        }
 
         return board;
     }

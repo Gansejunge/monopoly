@@ -20,7 +20,6 @@ public class GameController {
     private int currentPlayer = 0;
     private Decks decks;
     private int currentRollCount = 0;
-    private DiceResult currentDiceResult;
 
     public GameController(List<String> playerNames){
         this.board = new Board();
@@ -32,7 +31,7 @@ public class GameController {
         Field result;
         Player currentPlayer = getCurrentPlayer();
 
-        currentDiceResult = Dice.roll2Dice();
+        DiceResult currentDiceResult = Dice.roll2Dice();
         currentRollCount++;
 
         if(getCurrentPlayer().isInPrison()){
@@ -76,7 +75,6 @@ public class GameController {
 
     public void nextPlayer(){
         currentRollCount = 0;
-        currentDiceResult = null;
         currentPlayer = (currentPlayer + 1) % players.size();
     }
 
