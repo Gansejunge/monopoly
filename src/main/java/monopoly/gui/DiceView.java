@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import monopoly.GameController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,11 @@ import java.util.Random;
 
 public class DiceView {
 
+    private GameController controller;
 
+    public DiceView(GameController controller){
+        this.controller = controller;
+    }
 
     public void animDiceRoll(Group parent, List<Integer> rolls){
         List<Node> dice = new ArrayList<>();

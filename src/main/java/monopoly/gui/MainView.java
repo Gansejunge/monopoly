@@ -30,10 +30,22 @@ public class MainView implements Initializable {
     private static final int FIELD_HEADER_HEIGHT = 28;
 
     private final Map<String, Rectangle> playerCharacters = new HashMap<>();
-    private DiceView diceView = new DiceView();
+    private DiceView diceView;
+
+    private GUIListener listener = new GUIListener() {
+        @Override
+        public void onMove(MoveResult move) {
+            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
+            //todo action
+        }
+    };
 
     public MainView(GameController controller) {
         this.controller = controller;
+        this.controller.addEventListener(listener);
+
+        this.diceView = new DiceView(controller);
+
         Random rnd = new Random();
 
         for (Player player : controller.getPlayers()) {
@@ -69,7 +81,6 @@ public class MainView implements Initializable {
         Button button = new Button("Würfeln");
         button.setOnMouseClicked((e) -> {
             MoveResult move = controller.nextMove();
-            setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getName()));
             diceView.animDiceRoll(boardGroup, move.roll.getResult());
         });
 

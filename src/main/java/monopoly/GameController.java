@@ -8,6 +8,7 @@ import monopoly.dice.DiceResult;
 import monopoly.field.Field;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
+import monopoly.gui.GUIListener;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,10 +22,20 @@ public class GameController {
     private Decks decks;
     private int currentRollCount = 0;
 
+    private List<GUIListener> eventListener = new ArrayList<>();
+
     public GameController(List<String> playerNames){
         this.board = new Board();
         this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
         this.decks = new Decks();
+    }
+
+    public void addEventListener(GUIListener listener){
+        this.eventListener.add(listener);
+    }
+
+    public void removeEventListener(GUIListener listener){
+        this.eventListener.remove(listener);
     }
 
     public MoveResult nextMove(){
@@ -62,7 +73,9 @@ public class GameController {
             }
         }
 
-        return new MoveResult(result, currentPlayer, currentDiceResult);
+        MoveResult move = new MoveResult(result, currentPlayer, currentDiceResult);
+        eventListener.forEach(listener -> listener.onMove(move));
+        return move;
     }
 
     public List<Player> getPlayers(){
