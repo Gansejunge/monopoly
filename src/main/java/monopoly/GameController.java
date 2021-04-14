@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class GameController {
     public static final int MOVE_TO_PRISON_ROLL_COUNT = 3;
 
+    private static final int GO_MONEY = 4000;
+
     private Board board;
     private List<Player> players;
     private int currentPlayer = 0;
@@ -39,7 +41,7 @@ public class GameController {
     }
 
     public MoveResult nextMove(){
-        Field result;
+        Field resultField;
         Player currentPlayer = getCurrentPlayer();
 
         DiceResult currentDiceResult = Dice.roll2Dice();
@@ -50,11 +52,17 @@ public class GameController {
 
             if(currentDiceResult.isPair()){
                 getCurrentPlayer().setInPrison(false);
-                result = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
+
+                BoardMoveResult move = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
+                resultField = move.result;
+
+                if(move.passedGo){
+                    passedGo();
+                }
             } else{
-                result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
+                resultField = board.getFieldAtIndex(getCurrentPlayer().getPosition());
                 if(getCurrentPlayer().getTurnsInPrison() == 3) {
-                   //todo result.getFieldAction().perfom(this);
+                   //todo resultField.getFieldAction().perfom(this);
                 }
             }
 
@@ -64,10 +72,15 @@ public class GameController {
                 getCurrentPlayer().setPosition(11); //todo nicht über index?
                 getCurrentPlayer().setInPrison(true);
 
-                result = board.getFieldAtIndex(getCurrentPlayer().getPosition());
-                result.getFieldAction().perfom(this);
+                resultField = board.getFieldAtIndex(getCurrentPlayer().getPosition());
+                resultField.getFieldAction().perfom(this);
             } else{
-                result = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
+                BoardMoveResult move = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
+                resultField = move.result;
+
+                if(move.passedGo){
+                    passedGo();
+                }
             }
 
             if(!currentDiceResult.isPair()){
@@ -75,9 +88,13 @@ public class GameController {
             }
         }
 
-        MoveResult move = new MoveResult(result, currentPlayer, currentDiceResult);
+        MoveResult move = new MoveResult(resultField, currentPlayer, currentDiceResult);
         eventListener.forEach(listener -> listener.onMove(move));
         return move;
+    }
+
+    private void passedGo(){
+        getCurrentPlayer().addMoney(GO_MONEY);
     }
 
     public List<Player> getPlayers(){

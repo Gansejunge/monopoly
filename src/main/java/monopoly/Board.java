@@ -18,10 +18,11 @@ public class Board {
         return fields;
     }
 
-    public Field movePlayer(Player player, int step){
+    public BoardMoveResult movePlayer(Player player, int step){
+        boolean passedGo = step + player.getPosition() > fields.size();
         int resultingPosition = (player.getPosition() + step) % fields.size();
         player.setPosition(resultingPosition);
-        return fields.get(resultingPosition);
+        return new BoardMoveResult(fields.get(resultingPosition), passedGo);
     }
 
     private void initBoard(){
