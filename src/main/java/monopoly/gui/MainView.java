@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import monopoly.GameController;
 import monopoly.Player;
 import monopoly.deck.Card;
+import monopoly.deck.CardType;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
@@ -32,6 +33,7 @@ public class MainView implements Initializable {
 
     private final Map<Integer, Rectangle> playerCharacters = new HashMap<>();
     private DiceView diceView;
+    private Group boardGroup;
 
     private GUIListener listener = new GUIListener() {
         @Override
@@ -41,7 +43,11 @@ public class MainView implements Initializable {
 
         @Override
         public void onDrawCard(Card card) {
-            System.out.println(card.getText());
+            var c = new CardView();
+            var group = c.getCard(card);
+            c.animCard(group);
+
+            boardGroup.getChildren().add(group);
         }
     };
 
@@ -77,7 +83,7 @@ public class MainView implements Initializable {
         Board board = new Board(boardWidth, boardHeight);
         mainLayout.setLeft(board.getNode());
 
-        Group boardGroup = drawBoard();
+        boardGroup = drawBoard();
         for (var character : playerCharacters.values()) {
             boardGroup.getChildren().add(character);
         }
@@ -88,6 +94,11 @@ public class MainView implements Initializable {
             MoveResult move = controller.nextMove();
             diceView.animDiceRoll(boardGroup, move.roll.getResult());
         });
+
+        Button drawCardTestButton = new Button("Karte ziehen");
+        drawCardTestButton.setOnMouseClicked((e) ->
+            controller.drawCard(CardType.Ereigniskarte)
+        );
 
         /////////////////////////
         // right side
@@ -103,6 +114,7 @@ public class MainView implements Initializable {
         VBox bottomPane = new VBox();
         bottomPane.setPrefHeight(bottomPaneHeight);
         bottomPane.getChildren().add(button);
+        bottomPane.getChildren().add(drawCardTestButton);
 
         mainLayout.setBottom(bottomPane);
         this.scene = new Scene(mainLayout, width, height);
