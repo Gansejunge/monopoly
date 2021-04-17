@@ -25,13 +25,11 @@ public class DiceView {
         }
     }
 
-    public void animDiceRoll(List<Integer> rolls){
+    public void animDiceRoll(){
         AnimationTimer timer = new AnimationTimer() {
             private long last = 0;
-            private long anim = 0;
+            private long anim_cycle = 0;
             private long total = 0;
-            private boolean done;
-            private boolean done_anim;
 
             @Override
             public void handle(long now) {
@@ -40,29 +38,25 @@ public class DiceView {
                 }
 
                 long delta = now - last;
+                last = now;
                 total += delta;
-                anim += delta;
+                anim_cycle += delta;
 
-                if(!done_anim && anim >= 900000000L){
-                    anim = 0;
+                if(anim_cycle >= 40000000L){
+                    anim_cycle = 0;
                     dice.forEach(d -> d.setNumber(new Random().nextInt(6) + 1));
-                    dice.forEach(d -> d.getDiceGroup().setRotate(now * 0.0000002));
+                    dice.forEach(d -> d.getDiceGroup().setRotate(now * 0.0000004));
                 }
 
-                if(done) {
-                    return;
-                }
+                if(total >= 400000000L){
+                    stop();
 
-                if(!done_anim && total >= 4000000000L){
-                    done_anim = true;
+                    var result = controller.nextMove();
+                    var rolls = result.roll.getResult();
                     for(int i = 0; i < rolls.size(); ++i){
                         dice.get(i).setNumber(rolls.get(i));
                         dice.forEach(d -> d.getDiceGroup().setRotate(0));
                     }
-                }
-
-                if(total >= 21000000000L){
-                    done = true;
                 }
             }
         };

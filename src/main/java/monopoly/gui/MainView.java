@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -57,9 +56,9 @@ public class MainView implements Initializable {
         @Override
         public void onRequestPropertyPurchase(Property field) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, field.getName() + " für " + field.getPrice() + "€ kaufen?");
-            alert.showAndWait()
-                    .filter(response -> response == ButtonType.OK)
-                    .ifPresent(response -> controller.buy(controller.getCurrentPlayer(), field));
+//            alert.showAndWait()
+//                    .filter(response -> response == ButtonType.OK)
+//                    .ifPresent(response -> controller.buy(controller.getCurrentPlayer(), field));
         }
 
         @Override
@@ -110,10 +109,7 @@ public class MainView implements Initializable {
         this.diceView = new DiceView(controller, boardGroup);
 
         Button button = new Button("Würfeln");
-        button.setOnMouseClicked((e) -> {
-            MoveResult move = controller.nextMove();
-            diceView.animDiceRoll(move.roll.getResult());
-        });
+        button.setOnMouseClicked(e -> diceView.animDiceRoll());
 
         Button drawCardTestButton = new Button("Karte ziehen");
         drawCardTestButton.setOnMouseClicked((e) ->
