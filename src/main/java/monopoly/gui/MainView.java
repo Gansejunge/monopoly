@@ -4,7 +4,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -39,6 +41,8 @@ public class MainView implements Initializable {
         @Override
         public void onMove(MoveResult move) {
             setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getId()));
+
+
         }
 
         @Override
@@ -48,6 +52,14 @@ public class MainView implements Initializable {
             c.animCard(group);
 
             boardGroup.getChildren().add(group);
+        }
+
+        @Override
+        public void onRequestPropertyPurchase(Property field) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, field.getName() + " für " + field.getPrice() + "€ kaufen?");
+            alert.showAndWait()
+                    .filter(response -> response == ButtonType.OK)
+                    .ifPresent(response -> controller.buy(controller.getCurrentPlayer(), field));
         }
     };
 
