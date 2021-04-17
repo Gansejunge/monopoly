@@ -75,8 +75,6 @@ public class MainView implements Initializable {
         this.controller = controller;
         this.controller.addEventListener(listener);
 
-        this.diceView = new DiceView(controller);
-
         Random rnd = new Random();
 
         for (Player player : controller.getPlayers()) {
@@ -109,10 +107,12 @@ public class MainView implements Initializable {
         }
         board.getNode().getChildren().add(boardGroup);
 
+        this.diceView = new DiceView(controller, boardGroup);
+
         Button button = new Button("Würfeln");
         button.setOnMouseClicked((e) -> {
             MoveResult move = controller.nextMove();
-            diceView.animDiceRoll(boardGroup, move.roll.getResult());
+            diceView.animDiceRoll(move.roll.getResult());
         });
 
         Button drawCardTestButton = new Button("Karte ziehen");

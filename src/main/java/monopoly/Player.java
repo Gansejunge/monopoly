@@ -8,11 +8,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class Player {
+    public static final int START_MONEY = 10000;
+
     private String name;
 
     private static int counter = 0;
 
-    private int money = 0;
+    private int money = START_MONEY;
     private int id;
     private int position = 0;
     private boolean isInPrison;
