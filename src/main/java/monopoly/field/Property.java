@@ -13,6 +13,8 @@ public abstract class Property extends Field {
         this.group = group;
         this.price = price;
         this.fieldAction = new PropertyAction(this);
+
+        group.addProperty(this);
     }
 
     public Player getOwner() {

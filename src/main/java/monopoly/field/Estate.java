@@ -14,7 +14,12 @@ public class Estate extends Property{
     public int getBuildings(){return this.houses;}
 
     public int getRent(int dice){
-        //todo double price with 0 houses + all properties owned
-        return rent[houses];
+        boolean ownsAllProperties = getGroup().getProperties().stream()
+                .allMatch(p -> this.owner.equals(p.owner));
+        if(ownsAllProperties && houses == 0){
+            return rent[houses] * 2;
+        }else{
+            return rent[houses];
+        }
     }
 }
