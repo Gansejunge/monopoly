@@ -10,7 +10,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import monopoly.GameController;
@@ -33,7 +35,7 @@ public class MainView implements Initializable {
     private static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
     private static final int FIELD_HEADER_HEIGHT = 28;
 
-    private final Map<Integer, Rectangle> playerCharacters = new HashMap<>();
+    private final Map<Integer, Shape> playerCharacters = new HashMap<>();
     private DiceView diceView;
     private Group boardGroup;
 
@@ -81,9 +83,11 @@ public class MainView implements Initializable {
         Random rnd = new Random();
 
         for (Player player : controller.getPlayers()) {
-            Rectangle r = new Rectangle(16, 16);
+            Circle r = new Circle(12);
             r.setFill(new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1.0));
-            setR(FIELD_WIDTH * 11, FIELD_WIDTH * 11, r);
+            r.setStrokeWidth(1.0);
+            r.setStroke(Color.BLACK);
+            setCharPosition(0, r);
             playerCharacters.put(player.getId(), r);
         }
 
@@ -158,7 +162,7 @@ public class MainView implements Initializable {
                 if (x == 0) {
                     field.setWidth(FIELD_HEIGHT);
                 }
-                setCharPosition(x % 10, fieldGroup);
+                setCharPosition2(x % 10, fieldGroup);
 
                 field.setFill(Color.WHITE);
                 field.setStrokeWidth(1.0);
@@ -212,6 +216,22 @@ public class MainView implements Initializable {
     }
 
     private void setCharPosition(int fieldIndex, Node r) {
+        final int TOTAL = 10 * FIELD_WIDTH;
+
+        if (fieldIndex <= 10) {
+            setR(TOTAL - (fieldIndex * FIELD_WIDTH) + FIELD_WIDTH * 0.5,
+                    TOTAL + FIELD_HEADER_HEIGHT * 2, r);
+        } else if (fieldIndex <= 20) {
+            setR(0, FIELD_WIDTH * 0.5 + TOTAL - ((fieldIndex - 10) * FIELD_WIDTH), r);
+        } else if (fieldIndex <= 30) {
+            setR(FIELD_WIDTH * 0.5 +(fieldIndex - 20) * FIELD_WIDTH,
+                    - FIELD_HEADER_HEIGHT, r);
+        } else {
+            setR(TOTAL + FIELD_HEADER_HEIGHT * 2, ((fieldIndex - 30) * FIELD_WIDTH) + FIELD_WIDTH * 0.5, r);
+        }
+    }
+
+    private void setCharPosition2(int fieldIndex, Node r) {
         final int TOTAL = 10 * FIELD_WIDTH;
 
         if (fieldIndex <= 10) {
