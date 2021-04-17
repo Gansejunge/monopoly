@@ -44,7 +44,13 @@ public class MainView implements Initializable {
         public void onMove(MoveResult move) {
             setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getId()));
 
-
+            for(Player player : controller.getPlayers()){
+                if(player.getPosition() == move.player.getPosition() && !player.equals(move.player)){
+                    Node n = playerCharacters.get(move.player.getId());
+                    n.setTranslateX((n.getTranslateX() + 10));
+                    n.setTranslateY((n.getTranslateY() + 10));
+                }
+            }
         }
 
         @Override
@@ -82,13 +88,20 @@ public class MainView implements Initializable {
 
         Random rnd = new Random();
 
+        int i = 0;
         for (Player player : controller.getPlayers()) {
             Circle r = new Circle(12);
             r.setFill(new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1.0));
             r.setStrokeWidth(1.0);
             r.setStroke(Color.BLACK);
             setCharPosition(0, r);
+
+            r.setTranslateX(r.getTranslateX() + i * 10);
+            r.setTranslateY(r.getTranslateY() + i * 10);
+
             playerCharacters.put(player.getId(), r);
+
+            ++i;
         }
 
         int width = 1200;
