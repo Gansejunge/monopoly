@@ -61,6 +61,14 @@ public class MainView implements Initializable {
                     .filter(response -> response == ButtonType.OK)
                     .ifPresent(response -> controller.buy(controller.getCurrentPlayer(), field));
         }
+
+        @Override
+        public void updatePlayerMoney() {
+            for(Player p : controller.getPlayers()){
+                //todo
+                System.out.println(p.getMoney());
+            }
+        }
     };
 
     public MainView(GameController controller) {

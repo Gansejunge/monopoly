@@ -17,7 +17,8 @@ public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
         int currentLocation=controller.getCurrentPlayer().getPosition();
         int locationToMoveTo=0;
         //todo take advantage of the new Property layout
-        if (currentLocation> locationOfEstatesPlayerIsMovingTo[locationOfEstatesPlayerIsMovingTo.length-1]) locationToMoveTo= locationOfEstatesPlayerIsMovingTo[0];
+        if (currentLocation> locationOfEstatesPlayerIsMovingTo[locationOfEstatesPlayerIsMovingTo.length-1])
+            locationToMoveTo= locationOfEstatesPlayerIsMovingTo[0];
         else{
             for (int i = 0; i < locationOfEstatesPlayerIsMovingTo.length; i++) {
                 if(currentLocation< locationOfEstatesPlayerIsMovingTo[i]) {
@@ -29,7 +30,7 @@ public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
         //todo
         Estate propertyAtNewLocation= (Estate) controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo);
         if  (!propertyAtNewLocation.hasOwner()){
-            int rent=-1*propertyAtNewLocation.getRent()*this.rentMultiplier;
+            int rent=-1*propertyAtNewLocation.getRent(0) * this.rentMultiplier;
             controller.getCurrentPlayer().addMoneyFromOtherPlayer(propertyAtNewLocation.getOwner(), rent);
         }
         controller.getCurrentPlayer().moveToField(locationToMoveTo,true);

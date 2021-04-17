@@ -5,7 +5,7 @@ public class Trainstation extends Property {
         super(name, group, price);
     }
 
-    public int getRent() {
+    public int getRent(int dicevalue) {
         long count = owner.getProperties().stream().filter(p -> p.group == this.group).count();
         return (int) (25 * Math.pow(2, count - 1));
     }

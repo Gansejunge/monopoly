@@ -99,7 +99,15 @@ public class GameController {
     }
 
     public void requestBuy(Property property){
-        eventListener.forEach(l -> l.onRequestPropertyPurchase(property));
+        if(property.getPrice() <= getCurrentPlayer().getMoney()) {
+            eventListener.forEach(l -> l.onRequestPropertyPurchase(property));
+        }
+    }
+
+    public void payRent(Property property){
+        //todo dice
+        property.getOwner().addMoneyFromOtherPlayer(getCurrentPlayer(), property.getRent(1));
+        eventListener.forEach(GUIListener::updatePlayerMoney);
     }
 
     public void buy(Player player, Property property){

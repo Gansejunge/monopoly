@@ -8,4 +8,5 @@ public interface GUIListener {
     void onMove(MoveResult move);
     void onDrawCard(Card card);
     void onRequestPropertyPurchase(Property field);
+    void updatePlayerMoney();
 }

@@ -14,6 +14,8 @@ public class PropertyAction implements Action{
     public void perfom(GameController controller) {
         if(!this.field.hasOwner()){
             controller.requestBuy(field);
+        } else{
+            controller.payRent(field);
         }
     }
 }

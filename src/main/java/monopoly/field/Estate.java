@@ -12,7 +12,9 @@ public class Estate extends Property{
         this.housePrice = housePrice;
     }
     public int getBuildings(){return this.houses;}
-    public int getRent(){
+
+    public int getRent(int dice){
+        //todo double price with 0 houses + all properties owned
         return rent[houses];
     }
 }

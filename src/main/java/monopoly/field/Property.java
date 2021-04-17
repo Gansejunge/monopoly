@@ -38,4 +38,6 @@ public abstract class Property extends Field {
     public PropertyGroup getGroup() {
         return group;
     }
+
+    public abstract int getRent(int diceValue);
 }
