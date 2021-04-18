@@ -14,9 +14,7 @@ public class Estate extends Property{
     public int getBuildings(){return this.houses;}
 
     public int getRent(int dice){
-        boolean ownsAllProperties = getGroup().getProperties().stream()
-                .allMatch(p -> this.owner.equals(p.owner));
-        if(ownsAllProperties && houses == 0){
+        if(allOfGroupOwnedBySamePlayer() && houses == 0){
             return rent[houses] * 2;
         }else{
             return rent[houses];

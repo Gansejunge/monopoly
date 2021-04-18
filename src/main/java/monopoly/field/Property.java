@@ -42,4 +42,9 @@ public abstract class Property extends Field {
     }
 
     public abstract int getRent(int diceValue);
+
+    public boolean allOfGroupOwnedBySamePlayer() {
+        return hasOwner() && group.getProperties().stream()
+                .allMatch(p -> this.owner.equals(p.owner));
+    }
 }

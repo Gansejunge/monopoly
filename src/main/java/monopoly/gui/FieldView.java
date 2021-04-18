@@ -1,7 +1,6 @@
 package monopoly.gui;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
@@ -15,10 +14,10 @@ import static monopoly.gui.MainView.*;
 
 public class FieldView {
     private monopoly.field.Field base;
-
     private int rowIndex;
     private Group fieldGroup;
-    private Node overlay;
+    private Rectangle overlay;
+
     public FieldView(monopoly.field.Field field, int rowIndex){
         this.base = field;
         this.fieldGroup = new Group();
@@ -74,33 +73,42 @@ public class FieldView {
     }
 
     private void initOverlay(){
+        if(! (base instanceof Estate)){
+            return;
+        }
+
         Rectangle overlayRect = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
         if (rowIndex == 0) {
             overlayRect.setWidth(FIELD_HEIGHT);
         }
 
         overlayRect.setFill(Color.color(0.5, 0.5, 0.5, 0.4));
-        overlayRect.setStrokeWidth(1.0);
-        overlayRect.setStroke(Color.color(0.5, 0.5, 0.5, 0.4));
+
         fieldGroup.getChildren().add(overlayRect);
 
-        overlayRect.hoverProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue){
-                overlayRect.setFill(Color.color(0.1, 0.1, 0.1, 0.4));
+        overlayRect.hoverProperty().addListener((observable, oldValue, newHoverValue) -> {
+            Estate es = (Estate) base;
+            Color c;
+            if(es.allOfGroupOwnedBySamePlayer()){
+                c = newHoverValue ? Color.color(0.1, 0.6, 0.1, 0.4) : Color.color(0.5, 1.0, 0.5, 0.4);
             } else{
-                overlayRect.setFill(Color.color(0.5, 0.5, 0.5, 0.4));
+                c = newHoverValue ? Color.color(0.1, 0.1, 0.1, 0.4) : Color.color(0.5, 0.5, 0.5, 0.4);
             }
+
+            overlayRect.setFill(c);
         });
 
         overlayRect.setOnMouseClicked(ev -> {
             Estate es = (Estate) base;
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Haus auf " + es.getName() + " für " + es.getHousePrice() + "€ bauen?");
-            alert.setOnHidden(eve -> {
-                if(alert.getResult() == ButtonType.OK){
-                    //controller.buy(controller.getCurrentPlayer(), field);
-                }
-            });
-            alert.show();
+            if(es.allOfGroupOwnedBySamePlayer()){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Haus auf " + es.getName() + " für " + es.getHousePrice() + "€ bauen?");
+                alert.setOnHidden(eve -> {
+                    if(alert.getResult() == ButtonType.OK){
+                        //controller.buy(controller.getCurrentPlayer(), field);
+                    }
+                });
+                alert.show();
+            }
         });
 
         this.overlay = overlayRect;
@@ -108,12 +116,24 @@ public class FieldView {
     }
 
     public void showOverlay(){
-        if(base instanceof Estate){
+        if(overlay != null){
+            Estate es = (Estate) base;
+            Color c;
+            if(es.allOfGroupOwnedBySamePlayer()){
+                c =  Color.color(0.5, 1.0, 0.5, 0.4);
+            } else{
+                c = Color.color(0.5, 0.5, 0.5, 0.4);
+            }
+
+            overlay.setFill(c);
+
             this.overlay.setVisible(true);
         }
     }
 
     public void hideOverlay(){
-        this.overlay.setVisible(false);
+        if(overlay != null){
+            this.overlay.setVisible(false);
+        }
     }
 }
