@@ -9,15 +9,16 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import monopoly.field.Estate;
+import monopoly.field.Field;
 
 import static monopoly.gui.MainView.*;
 
 public class FieldView {
     private monopoly.field.Field base;
+
     private int rowIndex;
     private Group fieldGroup;
     private Node overlay;
-
     public FieldView(monopoly.field.Field field, int rowIndex){
         this.base = field;
         this.fieldGroup = new Group();
@@ -28,6 +29,10 @@ public class FieldView {
 
     public Group getFieldGroup() {
         return fieldGroup;
+    }
+
+    public Field getBase() {
+        return base;
     }
 
     private void init(){

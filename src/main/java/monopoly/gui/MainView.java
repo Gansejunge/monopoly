@@ -16,6 +16,7 @@ import javafx.scene.shape.Shape;
 import monopoly.GameController;
 import monopoly.Player;
 import monopoly.deck.Card;
+import monopoly.field.Estate;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
@@ -129,7 +130,26 @@ public class MainView implements Initializable {
         button.setOnMouseClicked(e -> diceView.animDiceRoll());
 
         Button buyHouseButton = new Button("Häuser bauen");
-        buyHouseButton.setOnMouseClicked((e) -> this.fields.forEach(FieldView::showOverlay));
+        buyHouseButton.setCancelButton(false);
+        buyHouseButton.setOnMouseClicked((e) -> {
+            if(buyHouseButton.isCancelButton()){
+                buyHouseButton.setCancelButton(false);
+                buyHouseButton.setText("Häuser bauen");
+                fields.forEach(FieldView::hideOverlay);
+            }else{
+                buyHouseButton.setText("Bauen beenden");
+                buyHouseButton.setCancelButton(true);
+
+                for(FieldView f : fields){
+                    if(f.getBase() instanceof Estate){
+                        Estate estate = (Estate) f.getBase();
+                        if (estate.hasOwner() && estate.getOwner().equals(controller.getCurrentPlayer())){
+                            f.showOverlay();
+                        }
+                    }
+                }
+            }
+        });
 
         /////////////////////////
         // right side
