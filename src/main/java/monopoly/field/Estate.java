@@ -22,4 +22,8 @@ public class Estate extends Property{
             return rent[houses];
         }
     }
+
+    public int getHousePrice() {
+        return housePrice;
+    }
 }

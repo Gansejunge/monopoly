@@ -13,31 +13,27 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import monopoly.GameController;
 import monopoly.Player;
 import monopoly.deck.Card;
-import monopoly.deck.CardType;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainView implements Initializable {
     private GameController controller;
     private Scene scene;
-    private static final int FIELD_WIDTH = 66;
-    private static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
-    private static final int FIELD_HEADER_HEIGHT = 28;
+    public static final int FIELD_WIDTH = 66;
+    public static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
+    public static final int FIELD_HEADER_HEIGHT = 28;
 
     private final Map<Integer, Shape> playerCharacters = new HashMap<>();
     private DiceView diceView;
     private Group boardGroup;
+
+    private List<FieldView> fields = new ArrayList<>();
 
     private GUIListener listener = new GUIListener() {
         @Override
@@ -132,10 +128,8 @@ public class MainView implements Initializable {
         Button button = new Button("Würfeln");
         button.setOnMouseClicked(e -> diceView.animDiceRoll());
 
-        Button drawCardTestButton = new Button("Karte ziehen");
-        drawCardTestButton.setOnMouseClicked((e) ->
-            controller.drawCard(CardType.Ereigniskarte)
-        );
+        Button buyHouseButton = new Button("Häuser bauen");
+        buyHouseButton.setOnMouseClicked((e) -> this.fields.forEach(FieldView::showOverlay));
 
         /////////////////////////
         // right side
@@ -151,7 +145,7 @@ public class MainView implements Initializable {
         VBox bottomPane = new VBox();
         bottomPane.setPrefHeight(bottomPaneHeight);
         bottomPane.getChildren().add(button);
-        bottomPane.getChildren().add(drawCardTestButton);
+        bottomPane.getChildren().add(buyHouseButton);
 
         mainLayout.setBottom(bottomPane);
         this.scene = new Scene(mainLayout, width, height);
@@ -169,46 +163,12 @@ public class MainView implements Initializable {
         for (int i = 0; i < 4; ++i) {
             Group row = new Group();
 
-            for (int x = 0; x < 10; ++x) {
-                Group fieldGroup = new Group();
-                Rectangle field = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
-                if (x == 0) {
-                    field.setWidth(FIELD_HEIGHT);
-                }
-                setCharPosition2(x % 10, fieldGroup);
+            for (int rowIndex = 0; rowIndex < 10; ++rowIndex) {
+                FieldView field = new FieldView(fields.get(i * 10 + rowIndex), rowIndex);
+                setCharPosition2(rowIndex, field.getFieldGroup());
+                row.getChildren().add(field.getFieldGroup());
 
-                field.setFill(Color.WHITE);
-                field.setStrokeWidth(1.0);
-                field.setStroke(Color.BLACK);
-                fieldGroup.getChildren().add(field);
-
-
-                if (fields.get(i * 10 + x) instanceof Property) {
-                    Property p = (Property) fields.get(i * 10 + x);
-                    Rectangle header = new Rectangle(FIELD_WIDTH, FIELD_HEADER_HEIGHT);
-                    header.setFill(Color.web(p.getGroup().getColor()));
-                    header.setStrokeWidth(1.0);
-                    header.setStroke(Color.BLACK);
-
-                    fieldGroup.getChildren().add(header);
-                }
-
-                Text text = new Text();
-                text.setFont(new Font(12));
-                text.setWrappingWidth(FIELD_WIDTH - 6);
-                text.setText(fields.get(i * 10 + x).getName());
-                text.setTranslateX(6);
-                text.setTranslateY(20 + FIELD_HEADER_HEIGHT);
-                fieldGroup.getChildren().add(text);
-
-                if (x == 0) {
-                    text.setRotate(-45);
-                    text.setWrappingWidth(FIELD_HEIGHT);
-                    text.setTranslateX(12);
-                    text.setTranslateY(30 + FIELD_HEADER_HEIGHT);
-                }
-
-                row.getChildren().add(fieldGroup);
+                this.fields.add(field);
             }
 
             row.setRotate(i * 90);
