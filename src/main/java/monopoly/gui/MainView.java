@@ -34,6 +34,11 @@ public class MainView implements Initializable {
     private DiceView diceView;
     private Group boardGroup;
 
+    private VBox playerSidebar;
+    private List<PlayerCard> playerCards;
+    int sidebarHeight;
+    int sidebarWidth;
+
     private List<FieldView> fields = new ArrayList<>();
 
     private GUIListener listener = new GUIListener() {
@@ -72,10 +77,13 @@ public class MainView implements Initializable {
 
         @Override
         public void updatePlayerMoney() {
-            for(Player p : controller.getPlayers()){
-                //todo
-                System.out.println(p.getMoney());
+            playerSidebar.getChildren().clear();
+            for(Player player: controller.getPlayers()){
+                PlayerCard playerCard = new PlayerCard(sidebarHeight / 4, sidebarWidth, player.getName(), player.getMoney());
+                playerSidebar.getChildren().add(playerCard.getNode());
+                //this.playerCards.add(playerCard);
             }
+
         }
     };
 
@@ -107,8 +115,8 @@ public class MainView implements Initializable {
         int bottomPaneHeight = 100;
         int boardHeight = height - bottomPaneHeight;
         int boardWidth = 800;
-        int sidebarHeight = height - bottomPaneHeight;
-        int sidebarWidth = 400;
+        this.sidebarHeight = height - bottomPaneHeight;
+        this.sidebarWidth = 400;
         // main layout
         BorderPane mainLayout = new BorderPane();
 
@@ -119,9 +127,11 @@ public class MainView implements Initializable {
         mainLayout.setLeft(board.getNode());
 
         boardGroup = drawBoard();
+
         for (var character : playerCharacters.values()) {
             boardGroup.getChildren().add(character);
         }
+
         board.getNode().getChildren().add(boardGroup);
 
         this.diceView = new DiceView(controller, boardGroup);
@@ -130,6 +140,7 @@ public class MainView implements Initializable {
         button.setOnMouseClicked(e -> diceView.animDiceRoll());
 
         Button buyHouseButton = new Button("Häuser bauen");
+
         buyHouseButton.setCancelButton(false);
         buyHouseButton.setOnMouseClicked((e) -> {
             if(buyHouseButton.isCancelButton()){
@@ -154,10 +165,17 @@ public class MainView implements Initializable {
         /////////////////////////
         // right side
         ////////////////////////
-        PlayerSidebar playerSidebar = new PlayerSidebar(sidebarWidth, sidebarHeight, controller.getPlayers());
+        this.playerSidebar = new VBox();
+        this.playerSidebar.setPrefHeight(sidebarHeight);
+        this.playerSidebar.setPrefWidth(sidebarWidth);
 
+        for(Player player: controller.getPlayers()){
+            PlayerCard playerCard = new PlayerCard(this.sidebarHeight / 4, this.sidebarWidth, player.getName(), player.getMoney());
+            this.playerSidebar.getChildren().add(playerCard.getNode());
 
-        mainLayout.setRight(playerSidebar.getNode());
+        }
+
+        mainLayout.setRight(this.playerSidebar);
 
         /////////////////////////
         // bottom pane

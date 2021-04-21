@@ -31,6 +31,12 @@ public class PlayerCard {
         this.main.setStyle("-fx-border-style: solid inside; -fx-border-color: black");
     }
 
+    public void updateMoney(Integer money){
+        this.money.setText(money.toString());
+    }
+
+
+
     public VBox getNode(){
         return this.main;
     }
