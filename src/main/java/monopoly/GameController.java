@@ -121,6 +121,13 @@ public class GameController {
     public void buy(Player player, Property property){
         property.setOwner(player);
         player.addMoney(-property.getPrice());
+        eventListener.forEach(GUIListener::updatePlayerMoney);
+    }
+
+    public void addHouse(Player player, Estate estate){
+        player.addMoney(-estate.getHousePrice());
+        estate.addHouse();
+        eventListener.forEach(GUIListener::updatePlayerMoney);
     }
 
     public List<Player> getPlayers(){

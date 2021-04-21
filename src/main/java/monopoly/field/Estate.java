@@ -21,6 +21,11 @@ public class Estate extends Property{
         }
     }
 
+    public boolean canBuyHouse(){
+        //todo nur wenn alle anderen Straßen min. genauso viele Häuser haben
+        return houses < 5 && allOfGroupOwnedBySamePlayer();
+    }
+
     public void addHouse(){
         this.houses++;
     }

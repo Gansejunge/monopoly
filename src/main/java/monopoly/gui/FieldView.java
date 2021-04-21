@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import monopoly.GameController;
 import monopoly.field.Estate;
 import monopoly.field.Field;
 
@@ -21,8 +22,10 @@ public class FieldView {
     private Group streetGroup;
     private Group overlay;
     private Rectangle overlayRect;
+    private GameController controller;
 
-    public FieldView(monopoly.field.Field field, int rowIndex){
+    public FieldView(GameController controller, monopoly.field.Field field, int rowIndex){
+        this.controller = controller;
         this.base = field;
         this.fieldGroup = new Group();
         this.rowIndex = rowIndex;
@@ -93,7 +96,7 @@ public class FieldView {
         overlayRect.hoverProperty().addListener((observable, oldValue, newHoverValue) -> {
             Estate es = (Estate) base;
             Color c;
-            if(es.allOfGroupOwnedBySamePlayer()){
+            if(es.canBuyHouse()){
                 c = newHoverValue ? Color.color(0.1, 0.6, 0.1, 0.8) : Color.color(0.5, 1.0, 0.5, 0.5);
             } else{
                 c = newHoverValue ? Color.color(0.1, 0.1, 0.1, 0.8) : Color.color(0.2, 0.2, 0.2, 0.5);
@@ -104,7 +107,7 @@ public class FieldView {
 
         overlayRect.setOnMouseClicked(ev -> {
             Estate es = (Estate) base;
-            if(es.allOfGroupOwnedBySamePlayer()){
+            if(es.canBuyHouse()){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Haus auf " + es.getName() + " für " + es.getHousePrice() + "€ bauen?");
                 alert.setOnHidden(eve -> {
                     if(alert.getResult() == ButtonType.OK){
@@ -116,9 +119,7 @@ public class FieldView {
                         img.setPreserveRatio(true);
                         streetGroup.getChildren().add(img);
 
-                        //todo
-                        es.addHouse();
-                        //controller.buy(controller.getCurrentPlayer(), field);
+                        controller.addHouse(controller.getCurrentPlayer(), es);
                     }
                 });
                 alert.show();
