@@ -5,6 +5,7 @@ import monopoly.deck.CardType;
 import monopoly.deck.Decks;
 import monopoly.dice.Dice;
 import monopoly.dice.DiceResult;
+import monopoly.field.Estate;
 import monopoly.field.Field;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
@@ -102,6 +103,13 @@ public class GameController {
         if(property.getPrice() <= getCurrentPlayer().getMoney()) {
             eventListener.forEach(l -> l.onRequestPropertyPurchase(property));
         }
+    }
+
+    public void buyHouse(Estate estate){
+        estate.addHouse();
+        getCurrentPlayer().addMoney(-estate.getHousePrice());
+
+        eventListener.forEach(GUIListener::updatePlayerMoney);
     }
 
     public void payRent(Property property){

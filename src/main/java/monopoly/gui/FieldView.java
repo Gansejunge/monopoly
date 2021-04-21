@@ -3,6 +3,8 @@ package monopoly.gui;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -16,7 +18,9 @@ public class FieldView {
     private monopoly.field.Field base;
     private int rowIndex;
     private Group fieldGroup;
-    private Rectangle overlay;
+    private Group streetGroup;
+    private Group overlay;
+    private Rectangle overlayRect;
 
     public FieldView(monopoly.field.Field field, int rowIndex){
         this.base = field;
@@ -47,12 +51,14 @@ public class FieldView {
 
         if (base instanceof Estate) {
             Estate estate = (Estate) base;
+            streetGroup = new Group();
             Rectangle header = new Rectangle(FIELD_WIDTH, FIELD_HEADER_HEIGHT);
             header.setFill(Color.web(estate.getGroup().getColor()));
             header.setStrokeWidth(1.0);
             header.setStroke(Color.BLACK);
 
-            fieldGroup.getChildren().add(header);
+            streetGroup.getChildren().add(header);
+            fieldGroup.getChildren().add(streetGroup);
         }
 
         Text text = new Text();
@@ -77,22 +83,20 @@ public class FieldView {
             return;
         }
 
-        Rectangle overlayRect = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
+        overlayRect = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
         if (rowIndex == 0) {
             overlayRect.setWidth(FIELD_HEIGHT);
         }
 
         overlayRect.setFill(Color.color(0.5, 0.5, 0.5, 0.4));
 
-        fieldGroup.getChildren().add(overlayRect);
-
         overlayRect.hoverProperty().addListener((observable, oldValue, newHoverValue) -> {
             Estate es = (Estate) base;
             Color c;
             if(es.allOfGroupOwnedBySamePlayer()){
-                c = newHoverValue ? Color.color(0.1, 0.6, 0.1, 0.4) : Color.color(0.5, 1.0, 0.5, 0.4);
+                c = newHoverValue ? Color.color(0.1, 0.6, 0.1, 0.8) : Color.color(0.5, 1.0, 0.5, 0.5);
             } else{
-                c = newHoverValue ? Color.color(0.1, 0.1, 0.1, 0.4) : Color.color(0.5, 0.5, 0.5, 0.4);
+                c = newHoverValue ? Color.color(0.1, 0.1, 0.1, 0.8) : Color.color(0.2, 0.2, 0.2, 0.5);
             }
 
             overlayRect.setFill(c);
@@ -104,6 +108,16 @@ public class FieldView {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Haus auf " + es.getName() + " für " + es.getHousePrice() + "€ bauen?");
                 alert.setOnHidden(eve -> {
                     if(alert.getResult() == ButtonType.OK){
+                        Image im = new Image(FieldView.class.getResourceAsStream("/monopoly/gui/house.png"));
+                        ImageView img = new ImageView(im);
+                        img.setX(2 + es.getBuildings() * 16);
+                        img.setY(6);
+                        img.setFitWidth(14);
+                        img.setPreserveRatio(true);
+                        streetGroup.getChildren().add(img);
+
+                        //todo
+                        es.addHouse();
                         //controller.buy(controller.getCurrentPlayer(), field);
                     }
                 });
@@ -111,8 +125,20 @@ public class FieldView {
             }
         });
 
-        this.overlay = overlayRect;
-        this.overlay.setVisible(false);
+        overlay = new Group();
+        overlay.getChildren().add(overlayRect);
+
+        Text text = new Text();
+        text.setFont(new Font(20));
+        text.setWrappingWidth(FIELD_WIDTH - 6);
+        text.setText(String.valueOf(((Estate) base).getHousePrice()) + "€");
+        text.setTranslateX(6);
+        text.setTranslateY(60 + FIELD_HEADER_HEIGHT);
+        text.setFill(Color.WHITE);
+
+        overlay.getChildren().add(text);
+        overlay.setVisible(false);
+        fieldGroup.getChildren().add(overlay);
     }
 
     public void showOverlay(){
@@ -125,15 +151,14 @@ public class FieldView {
                 c = Color.color(0.5, 0.5, 0.5, 0.4);
             }
 
-            overlay.setFill(c);
-
-            this.overlay.setVisible(true);
+            overlayRect.setFill(c);
+            overlay.setVisible(true);
         }
     }
 
     public void hideOverlay(){
         if(overlay != null){
-            this.overlay.setVisible(false);
+            overlay.setVisible(false);
         }
     }
 }

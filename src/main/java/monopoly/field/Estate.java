@@ -21,6 +21,10 @@ public class Estate extends Property{
         }
     }
 
+    public void addHouse(){
+        this.houses++;
+    }
+
     public int getHousePrice() {
         return housePrice;
     }
