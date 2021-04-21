@@ -49,21 +49,21 @@ public class Decks {
     public Deck initializeCommunityCards(){
         Deck communityCards = new Deck();
         communityCards.add(new Card("Sie kommen aus dem Gefängnis frei! Behalten Sie diese Karte, bis Sie sie benötigen oder verkaufen.", new EscapePrison(), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Schulgeld. Zahlen Sie € 1000.", new GetMoneyAction(-50), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Urlaubsgeld! Sie erhalten € 2000.", new GetMoneyAction(100), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Ihre Lebensversicherung wird fällig. Sie erhalten € 2000", new GetMoneyAction(100), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Arzt-Kosten. Zahlen Sie € 1000", new GetMoneyAction(-50), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Einkommenssteuerrückerstattung. Sie erhalten € 400.", new GetMoneyAction(20), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Krankenhausgebühren. Zahlen Sie € 2000", new GetMoneyAction(-100), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Schulgeld. Zahlen Sie € 1000.", new GetMoneyAction(-1000), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Urlaubsgeld! Sie erhalten € 2000.", new GetMoneyAction(2000), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Ihre Lebensversicherung wird fällig. Sie erhalten € 2000", new GetMoneyAction(2000), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Arzt-Kosten. Zahlen Sie € 1000", new GetMoneyAction(-1000), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Einkommenssteuerrückerstattung. Sie erhalten € 400.", new GetMoneyAction(400), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Krankenhausgebühren. Zahlen Sie € 2000", new GetMoneyAction(-2000), CardType.Gemeinschaftskarte));
         communityCards.add(new Card("Gehen Sie in das Gefängnis. Begeben Sie sich direkt dorthin. Gehen Sie nicht über Los. Ziehen Sie nicht € 4000 ein.", new GoToPrison(), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Sie erhalten auf Vorzugs-Aktien 7% Dividende: € 500.", new GetMoneyAction(25), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Sie haben Geburtstag. Jeder Spieler schenkt Ihnen € 200", new RedistributeMoneyToOrFromCurrentPlayer(10), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Sie erben € 2000", new GetMoneyAction(100), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Aus Lagerverkäufen erhalten Sie M 1000", new GetMoneyAction(50), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Zweiter Preis im Schönheitswettbewerb. Sie erhalten € 200.", new GetMoneyAction(10), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Sie werden zu Straßenausbesserungsarbeiten herangezogen. Zahlen Sie € 800 je Haus und € 2300 je Hotel an die Bank.", new MaintainOwnedEstate(40, 115), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Sie erhalten auf Vorzugs-Aktien 7% Dividende: € 500.", new GetMoneyAction(500), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Sie haben Geburtstag. Jeder Spieler schenkt Ihnen € 200", new RedistributeMoneyToOrFromCurrentPlayer(200), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Sie erben € 2000", new GetMoneyAction(2000), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Aus Lagerverkäufen erhalten Sie M 1000", new GetMoneyAction(1000), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Zweiter Preis im Schönheitswettbewerb. Sie erhalten € 200.", new GetMoneyAction(200), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Sie werden zu Straßenausbesserungsarbeiten herangezogen. Zahlen Sie € 800 je Haus und € 2300 je Hotel an die Bank.", new MaintainOwnedEstate(800, 2300), CardType.Gemeinschaftskarte));
         communityCards.add(new Card("Rücken Sie vor bis auf Los. (Ziehe € 4000 ein).", new MoveToLocation(0, true), CardType.Gemeinschaftskarte));
-        communityCards.add(new Card("Bank-Irrtum zu Ihren Gunsten. Ziehen Sie € 4000 ein", new GetMoneyAction(200), CardType.Gemeinschaftskarte));
+        communityCards.add(new Card("Bank-Irrtum zu Ihren Gunsten. Ziehen Sie € 4000 ein", new GetMoneyAction(4000), CardType.Gemeinschaftskarte));
 
         communityCards.reshuffle();
         return communityCards;
