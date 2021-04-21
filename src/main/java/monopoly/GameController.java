@@ -27,9 +27,9 @@ public class GameController {
 
     private List<GUIListener> eventListener = new ArrayList<>();
 
-    public GameController(List<String> playerNames){
+    public GameController(ArrayList<Player> players){
         this.board = new Board();
-        this.players = playerNames.stream().map(Player::new).collect(Collectors.toList());
+        this.players = players; //playerNames.stream().map(Player::new).collect(Collectors.toList());
         this.decks = new Decks();
     }
 
@@ -149,8 +149,9 @@ public class GameController {
 
     public void initPlayer(int amount){
         String name = "";
+        String color = "";
         for(int i = 0; i<amount; i++){
-           players.add(new Player(name));
+           players.add(new Player(name, color));
         }
     }
 

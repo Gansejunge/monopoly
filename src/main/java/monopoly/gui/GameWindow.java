@@ -1,6 +1,7 @@
 package monopoly.gui;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Application;
@@ -9,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import monopoly.GameController;
+import monopoly.Player;
 
 public class GameWindow extends Application{
     public Stage stage;
@@ -21,8 +23,8 @@ public class GameWindow extends Application{
         this.showMainMenu();
     }
 
-    public void initGameController(List<String> playerNames){
-        this.gameController = new GameController(playerNames);
+    public void initGameController(ArrayList<Player> players){
+        this.gameController = new GameController(players);
     }
 
     private void showMainMenu(){

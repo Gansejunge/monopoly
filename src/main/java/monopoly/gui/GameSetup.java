@@ -6,8 +6,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import monopoly.GameController;
+import monopoly.Player;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
@@ -39,12 +41,12 @@ public class GameSetup implements Initializable {
     }
 
     private void setupGame(){
-        String[] players = new String[4];
-        players[0] = playerOneTextField.getText();
-        players[1] = playerTwoTextField.getText();
-        players[2] = playerThreeTextField.getText();
-        players[3] = playerFourTextField.getText();
-        this.gameWindow.initGameController(Arrays.asList(players));
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(new Player(playerOneTextField.getText(), playerOneColour.getValue().toString()));
+        players.add(new Player(playerTwoTextField.getText(), playerTwoColour.getValue().toString()));
+        players.add(new Player(playerThreeTextField.getText(), playerThreeColour.getValue().toString()));
+        players.add(new Player(playerFourTextField.getText(), playerFourColour.getValue().toString()));
+        this.gameWindow.initGameController(players);
         this.gameWindow.showGameBoard();
     }
 
