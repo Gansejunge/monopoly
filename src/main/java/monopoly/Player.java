@@ -21,9 +21,11 @@ public class Player {
     private int turnsInPrison;
     private ArrayList<Property> properties = new ArrayList<>();
     private ArrayList<Card> Card= new ArrayList<>();
+    private String color;
 
-    public Player(String name){
+    public Player(String name, String color){
         this.name = name;
+        this.color = color;
         this.id = counter;
         ++counter;
     }

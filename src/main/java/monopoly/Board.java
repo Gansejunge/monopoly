@@ -29,7 +29,6 @@ public class Board {
     private void initBoard(){
         PropertyGroup trainStations = new PropertyGroup("trainstations", "#FFF");
         PropertyGroup works = new PropertyGroup("electricity", "#FFF");
-
         fields.add(new Go("Los", new NullAction()));
         propertyGroup = new PropertyGroup("brown","#A52A2A");
         fields.add(new Estate("Badstraße", propertyGroup, 1200, new int[]{40, 200, 600, 1800, 3200, 5000}, 1000));
