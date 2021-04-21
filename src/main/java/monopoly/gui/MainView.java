@@ -184,7 +184,7 @@ public class MainView implements Initializable {
             Group row = new Group();
 
             for (int rowIndex = 0; rowIndex < 10; ++rowIndex) {
-                FieldView field = new FieldView(fields.get(i * 10 + rowIndex), rowIndex);
+                FieldView field = new FieldView(controller, fields.get(i * 10 + rowIndex), rowIndex);
                 setCharPosition2(rowIndex, field.getFieldGroup());
                 row.getChildren().add(field.getFieldGroup());
 
