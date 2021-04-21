@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import monopoly.GameController;
 import monopoly.field.Estate;
 import monopoly.field.Field;
+import monopoly.field.Property;
 
 import static monopoly.gui.MainView.*;
 
@@ -67,7 +68,11 @@ public class FieldView {
         Text text = new Text();
         text.setFont(new Font(12));
         text.setWrappingWidth(FIELD_WIDTH - 6);
-        text.setText(base.getName());
+        if(base instanceof Property) {
+            text.setText(base.getName() + "/n" + ((Property) base).getPrice());
+        }else{
+            text.setText(base.getName());
+        }
         text.setTranslateX(6);
         text.setTranslateY(20 + FIELD_HEADER_HEIGHT);
 
