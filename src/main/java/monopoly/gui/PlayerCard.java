@@ -5,23 +5,34 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class PlayerCard {
-    HBox hBox;
+    VBox main;
+    HBox title;
+    HBox body;
     Text name;
-    VBox title;
+    Text money;
 
-    public PlayerCard(int height, int width, String name){
-        this.hBox = new HBox();
+
+    public PlayerCard(int height, int width, String name, Integer money){
+        this.main = new VBox();
+
+        this.title = new HBox();
+        this.body = new HBox();
+        this.title.setPrefWidth(width);
+        this.body.setPrefWidth(width);
+
         this.name = new Text(name);
-        this.title = new VBox();
+        this.money = new Text(money.toString());
 
         this.title.getChildren().add(this.name);
-        this.hBox.getChildren().add(title);
-        this.hBox.setPrefHeight(height);
-        this.hBox.setStyle("-fx-border-style: solid inside; -fx-border-color: black");
+        this.body.getChildren().add(this.money);
+        this.main.getChildren().add(title);
+        this.main.getChildren().add(body);
+        this.main.setPrefHeight(height);
+        this.main.setStyle("-fx-border-style: solid inside; -fx-border-color: black");
     }
 
-    public HBox getNode(){
-        return this.hBox;
+    public VBox getNode(){
+        return this.main;
     }
 
 }
