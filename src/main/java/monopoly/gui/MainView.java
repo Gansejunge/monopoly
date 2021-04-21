@@ -59,6 +59,8 @@ public class MainView implements Initializable {
         public void onDrawCard(Card card) {
             var c = new CardView();
             var group = c.getCard(card);
+            group.setTranslateX(70);
+            group.setTranslateY(70);
             c.animCard(group);
 
             boardGroup.getChildren().add(group);
