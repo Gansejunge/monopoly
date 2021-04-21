@@ -1,8 +1,6 @@
 package monopoly.gui;
 
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -113,21 +111,15 @@ public class FieldView {
         overlayRect.setOnMouseClicked(ev -> {
             Estate es = (Estate) base;
             if(es.canBuyHouse()){
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Haus auf " + es.getName() + " für " + es.getHousePrice() + "€ bauen?");
-                alert.setOnHidden(eve -> {
-                    if(alert.getResult() == ButtonType.OK){
-                        Image im = new Image(FieldView.class.getResourceAsStream("/monopoly/gui/house.png"));
-                        ImageView img = new ImageView(im);
-                        img.setX(2 + es.getBuildings() * 16);
-                        img.setY(6);
-                        img.setFitWidth(14);
-                        img.setPreserveRatio(true);
-                        streetGroup.getChildren().add(img);
+                    Image im = new Image(FieldView.class.getResourceAsStream("/monopoly/gui/house.png"));
+                    ImageView img = new ImageView(im);
+                    img.setX(2 + es.getBuildings() * 16);
+                    img.setY(6);
+                    img.setFitWidth(14);
+                    img.setPreserveRatio(true);
+                    streetGroup.getChildren().add(img);
 
-                        controller.addHouse(controller.getCurrentPlayer(), es);
-                    }
-                });
-                alert.show();
+                    controller.addHouse(controller.getCurrentPlayer(), es);
             }
         });
 
