@@ -1,18 +1,20 @@
 package monopoly.field;
 
 import monopoly.Player;
-import monopoly.deck.Action;
+import monopoly.deck.PropertyAction;
 
 public abstract class Property extends Field {
     protected int price;
     protected Player owner;
     protected PropertyGroup group;
 
-    public Property(String name, PropertyGroup group, int price, Action action){
+    public Property(String name, PropertyGroup group, int price){
         super(name);
         this.group = group;
         this.price = price;
-        this.fieldAction = action;
+        this.fieldAction = new PropertyAction(this);
+
+        group.addProperty(this);
     }
 
     public Player getOwner() {
@@ -37,5 +39,12 @@ public abstract class Property extends Field {
 
     public PropertyGroup getGroup() {
         return group;
+    }
+
+    public abstract int getRent(int diceValue);
+
+    public boolean allOfGroupOwnedBySamePlayer() {
+        return hasOwner() && group.getProperties().stream()
+                .allMatch(p -> this.owner.equals(p.owner));
     }
 }

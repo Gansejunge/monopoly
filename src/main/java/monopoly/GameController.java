@@ -5,6 +5,7 @@ import monopoly.deck.CardType;
 import monopoly.deck.Decks;
 import monopoly.dice.Dice;
 import monopoly.dice.DiceResult;
+import monopoly.field.Estate;
 import monopoly.field.Field;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
@@ -73,7 +74,6 @@ public class GameController {
                 getCurrentPlayer().setInPrison(true);
 
                 resultField = board.getFieldAtIndex(getCurrentPlayer().getPosition());
-                resultField.getFieldAction().perfom(this);
             } else{
                 BoardMoveResult move = board.movePlayer(getCurrentPlayer(), currentDiceResult.getTotal());
                 resultField = move.result;
@@ -81,6 +81,8 @@ public class GameController {
                 if(move.passedGo){
                     passedGo();
                 }
+
+                resultField.getFieldAction().perfom(this);
             }
 
             if(!currentDiceResult.isPair()){
@@ -95,6 +97,30 @@ public class GameController {
 
     private void passedGo(){
         getCurrentPlayer().addMoney(GO_MONEY);
+    }
+
+    public void requestBuy(Property property){
+        if(property.getPrice() <= getCurrentPlayer().getMoney()) {
+            eventListener.forEach(l -> l.onRequestPropertyPurchase(property));
+        }
+    }
+
+    public void buyHouse(Estate estate){
+        estate.addHouse();
+        getCurrentPlayer().addMoney(-estate.getHousePrice());
+
+        eventListener.forEach(GUIListener::updatePlayerMoney);
+    }
+
+    public void payRent(Property property){
+        //todo dice
+        property.getOwner().addMoneyFromOtherPlayer(getCurrentPlayer(), property.getRent(1));
+        eventListener.forEach(GUIListener::updatePlayerMoney);
+    }
+
+    public void buy(Player player, Property property){
+        property.setOwner(player);
+        player.addMoney(-property.getPrice());
     }
 
     public List<Player> getPlayers(){

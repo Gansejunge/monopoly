@@ -4,44 +4,78 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.shape.Shape;
 import monopoly.GameController;
 import monopoly.Player;
 import monopoly.deck.Card;
+import monopoly.field.Estate;
 import monopoly.field.Property;
 import monopoly.game.MoveResult;
 
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class MainView implements Initializable {
     private GameController controller;
     private Scene scene;
-    private static final int FIELD_WIDTH = 66;
-    private static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
-    private static final int FIELD_HEADER_HEIGHT = 28;
+    public static final int FIELD_WIDTH = 66;
+    public static final int FIELD_HEIGHT = FIELD_WIDTH * 2;
+    public static final int FIELD_HEADER_HEIGHT = 28;
 
-    private final Map<Integer, Rectangle> playerCharacters = new HashMap<>();
+    private final Map<Integer, Shape> playerCharacters = new HashMap<>();
     private DiceView diceView;
+    private Group boardGroup;
+
+    private List<FieldView> fields = new ArrayList<>();
 
     private GUIListener listener = new GUIListener() {
         @Override
         public void onMove(MoveResult move) {
             setCharPosition(move.player.getPosition(), playerCharacters.get(move.player.getId()));
+
+            for(Player player : controller.getPlayers()){
+                if(player.getPosition() == move.player.getPosition() && !player.equals(move.player)){
+                    Node n = playerCharacters.get(move.player.getId());
+                    n.setTranslateX((n.getTranslateX() + 10));
+                    n.setTranslateY((n.getTranslateY() + 10));
+                }
+            }
         }
 
         @Override
         public void onDrawCard(Card card) {
-            System.out.println(card.getText());
+            var c = new CardView();
+            var group = c.getCard(card);
+            c.animCard(group);
+
+            boardGroup.getChildren().add(group);
+        }
+
+        @Override
+        public void onRequestPropertyPurchase(Property field) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, field.getName() + " für " + field.getPrice() + "€ kaufen?");
+            alert.setOnHidden(e -> {
+                if(alert.getResult() == ButtonType.OK){
+                    controller.buy(controller.getCurrentPlayer(), field);
+                }
+            });
+            alert.show();
+        }
+
+        @Override
+        public void updatePlayerMoney() {
+            for(Player p : controller.getPlayers()){
+                //todo
+                System.out.println(p.getMoney());
+            }
         }
     };
 
@@ -49,15 +83,22 @@ public class MainView implements Initializable {
         this.controller = controller;
         this.controller.addEventListener(listener);
 
-        this.diceView = new DiceView(controller);
-
         Random rnd = new Random();
 
+        int i = 0;
         for (Player player : controller.getPlayers()) {
-            Rectangle r = new Rectangle(16, 16);
+            Circle r = new Circle(12);
             r.setFill(new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1.0));
-            setR(FIELD_WIDTH * 11, FIELD_WIDTH * 11, r);
+            r.setStrokeWidth(1.0);
+            r.setStroke(Color.BLACK);
+            setCharPosition(0, r);
+
+            r.setTranslateX(r.getTranslateX() + i * 10);
+            r.setTranslateY(r.getTranslateY() + i * 10);
+
             playerCharacters.put(player.getId(), r);
+
+            ++i;
         }
 
         int width = 1200;
@@ -77,16 +118,37 @@ public class MainView implements Initializable {
         Board board = new Board(boardWidth, boardHeight);
         mainLayout.setLeft(board.getNode());
 
-        Group boardGroup = drawBoard();
+        boardGroup = drawBoard();
         for (var character : playerCharacters.values()) {
             boardGroup.getChildren().add(character);
         }
         board.getNode().getChildren().add(boardGroup);
 
+        this.diceView = new DiceView(controller, boardGroup);
+
         Button button = new Button("Würfeln");
-        button.setOnMouseClicked((e) -> {
-            MoveResult move = controller.nextMove();
-            diceView.animDiceRoll(boardGroup, move.roll.getResult());
+        button.setOnMouseClicked(e -> diceView.animDiceRoll());
+
+        Button buyHouseButton = new Button("Häuser bauen");
+        buyHouseButton.setCancelButton(false);
+        buyHouseButton.setOnMouseClicked((e) -> {
+            if(buyHouseButton.isCancelButton()){
+                buyHouseButton.setCancelButton(false);
+                buyHouseButton.setText("Häuser bauen");
+                fields.forEach(FieldView::hideOverlay);
+            }else{
+                buyHouseButton.setText("Bauen beenden");
+                buyHouseButton.setCancelButton(true);
+
+                for(FieldView f : fields){
+                    if(f.getBase() instanceof Estate){
+                        Estate estate = (Estate) f.getBase();
+                        if (estate.hasOwner() && estate.getOwner().equals(controller.getCurrentPlayer())){
+                            f.showOverlay();
+                        }
+                    }
+                }
+            }
         });
 
         /////////////////////////
@@ -103,6 +165,7 @@ public class MainView implements Initializable {
         VBox bottomPane = new VBox();
         bottomPane.setPrefHeight(bottomPaneHeight);
         bottomPane.getChildren().add(button);
+        bottomPane.getChildren().add(buyHouseButton);
 
         mainLayout.setBottom(bottomPane);
         this.scene = new Scene(mainLayout, width, height);
@@ -120,46 +183,12 @@ public class MainView implements Initializable {
         for (int i = 0; i < 4; ++i) {
             Group row = new Group();
 
-            for (int x = 0; x < 10; ++x) {
-                Group fieldGroup = new Group();
-                Rectangle field = new Rectangle(FIELD_WIDTH, FIELD_HEIGHT);
-                if (x == 0) {
-                    field.setWidth(FIELD_HEIGHT);
-                }
-                setCharPosition(x % 10, fieldGroup);
+            for (int rowIndex = 0; rowIndex < 10; ++rowIndex) {
+                FieldView field = new FieldView(fields.get(i * 10 + rowIndex), rowIndex);
+                setCharPosition2(rowIndex, field.getFieldGroup());
+                row.getChildren().add(field.getFieldGroup());
 
-                field.setFill(Color.WHITE);
-                field.setStrokeWidth(1.0);
-                field.setStroke(Color.BLACK);
-                fieldGroup.getChildren().add(field);
-
-
-                if (fields.get(i * 10 + x) instanceof Property) {
-                    Property p = (Property) fields.get(i * 10 + x);
-                    Rectangle header = new Rectangle(FIELD_WIDTH, FIELD_HEADER_HEIGHT);
-                    header.setFill(Color.web(p.getGroup().getColor()));
-                    header.setStrokeWidth(1.0);
-                    header.setStroke(Color.BLACK);
-
-                    fieldGroup.getChildren().add(header);
-                }
-
-                Text text = new Text();
-                text.setFont(new Font(12));
-                text.setWrappingWidth(FIELD_WIDTH - 6);
-                text.setText(fields.get(i * 10 + x).getName());
-                text.setTranslateX(6);
-                text.setTranslateY(20 + FIELD_HEADER_HEIGHT);
-                fieldGroup.getChildren().add(text);
-
-                if (x == 0) {
-                    text.setRotate(-45);
-                    text.setWrappingWidth(FIELD_HEIGHT);
-                    text.setTranslateX(12);
-                    text.setTranslateY(30 + FIELD_HEADER_HEIGHT);
-                }
-
-                row.getChildren().add(fieldGroup);
+                this.fields.add(field);
             }
 
             row.setRotate(i * 90);
@@ -180,6 +209,22 @@ public class MainView implements Initializable {
     }
 
     private void setCharPosition(int fieldIndex, Node r) {
+        final int TOTAL = 10 * FIELD_WIDTH;
+
+        if (fieldIndex <= 10) {
+            setR(TOTAL - (fieldIndex * FIELD_WIDTH) + FIELD_WIDTH * 0.5,
+                    TOTAL + FIELD_HEADER_HEIGHT * 2, r);
+        } else if (fieldIndex <= 20) {
+            setR(0, FIELD_WIDTH * 0.5 + TOTAL - ((fieldIndex - 10) * FIELD_WIDTH), r);
+        } else if (fieldIndex <= 30) {
+            setR(FIELD_WIDTH * 0.5 +(fieldIndex - 20) * FIELD_WIDTH,
+                    - FIELD_HEADER_HEIGHT, r);
+        } else {
+            setR(TOTAL + FIELD_HEADER_HEIGHT * 2, ((fieldIndex - 30) * FIELD_WIDTH) + FIELD_WIDTH * 0.5, r);
+        }
+    }
+
+    private void setCharPosition2(int fieldIndex, Node r) {
         final int TOTAL = 10 * FIELD_WIDTH;
 
         if (fieldIndex <= 10) {
