@@ -69,7 +69,7 @@ public class FieldView {
         text.setFont(new Font(12));
         text.setWrappingWidth(FIELD_WIDTH - 6);
         if(base instanceof Property) {
-            text.setText(base.getName() + "/n" + ((Property) base).getPrice());
+            text.setText(base.getName() + "\n" + ((Property) base).getPrice());
         }else{
             text.setText(base.getName());
         }
