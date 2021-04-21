@@ -88,7 +88,7 @@ public class MainView implements Initializable {
         int i = 0;
         for (Player player : controller.getPlayers()) {
             Circle r = new Circle(12);
-            r.setFill(new Color(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble(), 1.0));
+            r.setFill(Color.web(player.getColor()));
             r.setStrokeWidth(1.0);
             r.setStroke(Color.BLACK);
             setCharPosition(0, r);
