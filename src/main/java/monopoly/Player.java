@@ -30,6 +30,10 @@ public class Player {
         ++counter;
     }
 
+    public String getColor() {
+        return color;
+    }
+
     public void addTurnInPrison(){
         turnsInPrison++;
     }

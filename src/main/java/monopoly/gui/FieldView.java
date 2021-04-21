@@ -1,8 +1,6 @@
 package monopoly.gui;
 
 import javafx.scene.Group;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -12,6 +10,7 @@ import javafx.scene.text.Text;
 import monopoly.GameController;
 import monopoly.field.Estate;
 import monopoly.field.Field;
+import monopoly.field.Property;
 
 import static monopoly.gui.MainView.*;
 
@@ -67,7 +66,11 @@ public class FieldView {
         Text text = new Text();
         text.setFont(new Font(12));
         text.setWrappingWidth(FIELD_WIDTH - 6);
-        text.setText(base.getName());
+        if(base instanceof Property) {
+            text.setText(base.getName() + "\n\n" + ((Property) base).getPrice());
+        }else{
+            text.setText(base.getName());
+        }
         text.setTranslateX(6);
         text.setTranslateY(20 + FIELD_HEADER_HEIGHT);
 
@@ -108,21 +111,15 @@ public class FieldView {
         overlayRect.setOnMouseClicked(ev -> {
             Estate es = (Estate) base;
             if(es.canBuyHouse()){
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Haus auf " + es.getName() + " für " + es.getHousePrice() + "€ bauen?");
-                alert.setOnHidden(eve -> {
-                    if(alert.getResult() == ButtonType.OK){
-                        Image im = new Image(FieldView.class.getResourceAsStream("/monopoly/gui/house.png"));
-                        ImageView img = new ImageView(im);
-                        img.setX(2 + es.getBuildings() * 16);
-                        img.setY(6);
-                        img.setFitWidth(14);
-                        img.setPreserveRatio(true);
-                        streetGroup.getChildren().add(img);
+                    Image im = new Image(FieldView.class.getResourceAsStream("/monopoly/gui/house.png"));
+                    ImageView img = new ImageView(im);
+                    img.setX(2 + es.getBuildings() * 16);
+                    img.setY(6);
+                    img.setFitWidth(14);
+                    img.setPreserveRatio(true);
+                    streetGroup.getChildren().add(img);
 
-                        controller.addHouse(controller.getCurrentPlayer(), es);
-                    }
-                });
-                alert.show();
+                    controller.addHouse(controller.getCurrentPlayer(), es);
             }
         });
 
