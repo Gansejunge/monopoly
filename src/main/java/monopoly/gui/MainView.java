@@ -33,6 +33,8 @@ public class MainView implements Initializable {
     private final Map<Integer, Shape> playerCharacters = new HashMap<>();
     private DiceView diceView;
     private Group boardGroup;
+    private Button rollButton;
+    private Button nextPlayerButton;
 
     private VBox playerSidebar;
     private List<PlayerCard> playerCards;
@@ -53,6 +55,11 @@ public class MainView implements Initializable {
                     n.setTranslateY((n.getTranslateY() + 10));
                 }
             }
+        }
+
+        @Override
+        public void onNextPlayer(Player player) {
+
         }
 
         @Override
@@ -86,6 +93,12 @@ public class MainView implements Initializable {
                 //this.playerCards.add(playerCard);
             }
 
+        }
+
+        @Override
+        public void onCanRoll(boolean canRoll) {
+            rollButton.setDisable(!canRoll);
+            nextPlayerButton.setDisable(canRoll);
         }
     };
 
@@ -138,8 +151,12 @@ public class MainView implements Initializable {
 
         this.diceView = new DiceView(controller, boardGroup);
 
-        Button button = new Button("Würfeln");
-        button.setOnMouseClicked(e -> diceView.animDiceRoll());
+        rollButton = new Button("Würfeln");
+        rollButton.setOnMouseClicked(e -> diceView.animDiceRoll());
+
+        nextPlayerButton = new Button("Nächster Spieler");
+        nextPlayerButton.setOnMouseClicked(e -> controller.nextPlayer());
+        nextPlayerButton.setDisable(true);
 
         Button buyHouseButton = new Button("Häuser bauen");
 
@@ -184,8 +201,9 @@ public class MainView implements Initializable {
         ////////////////////////
         VBox bottomPane = new VBox();
         bottomPane.setPrefHeight(bottomPaneHeight);
-        bottomPane.getChildren().add(button);
+        bottomPane.getChildren().add(rollButton);
         bottomPane.getChildren().add(buyHouseButton);
+        bottomPane.getChildren().add(nextPlayerButton);
 
         mainLayout.setBottom(bottomPane);
         this.scene = new Scene(mainLayout, width, height);

@@ -12,7 +12,6 @@ import monopoly.game.MoveResult;
 import monopoly.gui.GUIListener;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GameController {
     public static final int MOVE_TO_PRISON_ROLL_COUNT = 3;
@@ -24,6 +23,7 @@ public class GameController {
     private int currentPlayer = 0;
     private Decks decks;
     private int currentRollCount = 0;
+    private boolean nextPlayerBeforeRoll = false;
 
     private List<GUIListener> eventListener = new ArrayList<>();
 
@@ -67,7 +67,7 @@ public class GameController {
                 }
             }
 
-            nextPlayer();
+            notifyNextPlayer();
         } else{
             if(currentRollCount == MOVE_TO_PRISON_ROLL_COUNT && currentDiceResult.isPair()){
                 getCurrentPlayer().setPosition(11); //todo nicht über index?
@@ -86,13 +86,18 @@ public class GameController {
             }
 
             if(!currentDiceResult.isPair()){
-                nextPlayer();
+                notifyNextPlayer();
             }
         }
 
         MoveResult move = new MoveResult(resultField, currentPlayer, currentDiceResult);
         eventListener.forEach(listener -> listener.onMove(move));
         return move;
+    }
+
+    private void notifyNextPlayer(){
+        nextPlayerBeforeRoll = true;
+        eventListener.forEach(e -> e.onCanRoll(false));
     }
 
     private void passedGo(){
@@ -139,19 +144,18 @@ public class GameController {
     }
 
     public void nextPlayer(){
+        eventListener.forEach(e -> e.onCanRoll(true));
+
         currentRollCount = 0;
         currentPlayer = (currentPlayer + 1) % players.size();
+
+        eventListener.forEach(e -> e.onNextPlayer(getCurrentPlayer()));
     }
 
     public List<Player> getOtherPlayers(){
         List<Player> otherPlayer = new ArrayList<>(players);
         otherPlayer.remove(currentPlayer);
         return otherPlayer;
-    }
-
-    public Player getNextPlayer() {
-        this.nextPlayer();
-        return this.players.get(this.currentPlayer);
     }
 
     public void initPlayer(int amount){
