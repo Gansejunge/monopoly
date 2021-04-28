@@ -1,7 +1,7 @@
 package monopoly.deck;
 
 import monopoly.GameController;
-import monopoly.field.Estate;
+import monopoly.field.Property;
 
 
 public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
@@ -27,13 +27,15 @@ public class MoveToLocationWhilePossiblyPayingHigherRent implements Action{
                 }
             }
         }
-        //todo
-        Estate propertyAtNewLocation= (Estate) controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo);
-        if  (!propertyAtNewLocation.hasOwner()){
+
+        Property propertyAtNewLocation= (Property) controller.getMonopolyBoard().getFieldAtIndex(locationToMoveTo);
+        if  (propertyAtNewLocation.hasOwner()){
             int rent=-1*propertyAtNewLocation.getRent(0) * this.rentMultiplier;
             controller.getCurrentPlayer().addMoneyFromOtherPlayer(propertyAtNewLocation.getOwner(), rent);
         }
+        else{
+            controller.requestBuy(propertyAtNewLocation);
+        }
         controller.getCurrentPlayer().moveToField(locationToMoveTo,true);
-
     }
 }
